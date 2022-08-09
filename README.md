@@ -42,3 +42,5 @@ settings on GitHub.com.
 The JWT_SECRET field can be populated with a value generated
 by the following website:
 https://generate-secret.vercel.app/32
+Please do not push .env files to the public repo. I have included
+'.env.local' in the .gitignore file.
