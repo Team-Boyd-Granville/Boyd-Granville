@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-  "dev": "next dev",
-  "build": "next build && next export",
-  "start": "next start"
-},
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start"
+  },
   "dependencies": {
     "next": "^12.2.3",
-    "react": "18.2.0",
+    "next-auth": "^4.10.3",
+    "react": "^18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
