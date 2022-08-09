@@ -4,13 +4,15 @@ import boyd.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 public class UserController {
     @Autowired
     UserService userService;
 
     @GetMapping(value="/user", params="username")
-    public String get(@RequestParam String username) {
+    public String get(@RequestParam String username) throws IOException {
         System.out.println("Get user info");
         return userService.getUser(username);
     }
