@@ -9,7 +9,16 @@ return (
                 <Link href='/'>Home</Link>
             </li>
             <li>
-                <Link href='/other'>Other</Link>
+                <Link href='/topics'>Topics</Link>
+            </li>
+            <li>
+                <Link href='/trending'>Trending</Link>
+            </li>
+            <li>
+                <Link href='/collections'>Collections</Link>
+            </li>
+            <li>
+                <Link href='/events'>Events</Link>
             </li>
         </ul>
     </div>
