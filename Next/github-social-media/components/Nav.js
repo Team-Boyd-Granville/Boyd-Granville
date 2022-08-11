@@ -6,9 +6,9 @@ return (
     <div className={navStyles.nav}>
         <ul>
             <li>
-                <Link href='/'>Home</Link>
+                <Link href='/home'>Home</Link>
             </li>
-            <li>
+            {/* <li>
                 <Link href='/topics'>Topics</Link>
             </li>
             <li>
@@ -19,7 +19,11 @@ return (
             </li>
             <li>
                 <Link href='/events'>Events</Link>
+            </li> */}
+            <li>
+                <Link href='/logout'>Logout</Link>
             </li>
+            
         </ul>
     </div>
 )

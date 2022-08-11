@@ -1,29 +1,18 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
-import { Card, Button, CardTitle, CardText } from 'reactstrap';
+import React, { useEffect } from "react";
+import Router from "next/router";
+import LoginLayout from "../components/LoginLayout";
 
-export default function Home() {
+export default function Index() {
+  useEffect(() => {
+    const { pathname } = Router;
+    if (pathname === "/") {
+      Router.push("/login");
+    }
+  });
+}
 
+Index.getLayout = function getLayout(Index) {
   return (
-    <div>
-        <div>
-          <h1 className="text-center">Explore</h1>
-        </div>
-
-    <div>
-        <Card body className="text-center">
-            <CardTitle>Username</CardTitle>
-            <div class="container">
-               <p><a href="#">Starred topics</a></p>
-               <p><a href="#" class="pe-auto">Starred repositories</a></p>
-            </div>
-        </Card>
-    </div>
-
-        <div>
-            Here what we found based on your interests...
-        </div>
-    </div>
-
+      <LoginLayout>{Index}</LoginLayout>
   )
 }

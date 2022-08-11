@@ -1,4 +1,5 @@
 import  { useSession, signIn, signOut } from "next-auth/react"
+import LoginLayout from "../components/LoginLayout"
 
 
 const login = () => {
@@ -15,8 +16,14 @@ const {data: session} = useSession()
   return (
     <>
       Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
+      <button onClick={() => signIn('github', { callbackUrl: `/home` })}>Sign in</button>
     </>
+  )
+}
+
+login.getLayout = function getLayout(login) {
+  return (
+      <LoginLayout>{login}</LoginLayout>
   )
 }
 
