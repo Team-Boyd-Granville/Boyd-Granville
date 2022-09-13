@@ -14,7 +14,7 @@
 	<name>api</name>
 	<description>boyd project</description>
 	<properties>
-		<java.version>11</java.version>
+		<!-- <java.version>11</java.version> -->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -40,7 +40,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				            <configuration>
+			<configuration>
                 <source>1.8</source>
                 <target>1.8</target>
             </configuration>
