@@ -15,10 +15,8 @@
 	<description>boyd project</description>
 	<properties>
 		<java.version>11</java.version>
-		<properties>
  <maven.compiler.source>1.8</maven.compiler.source>
  <maven.compiler.target>1.8</maven.compiler.target>
-</properties>
 
 	</properties>
 	<dependencies>
