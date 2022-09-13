@@ -1,7 +1,8 @@
-import { Card, Button, CardTitle, CardText } from 'reactstrap';
+import React from 'react';
+import { Card, Button, CardTitle, CardText, Container, Row, Col } from 'reactstrap';
 import Layout from "../components/Layout"
 import { useSession } from 'next-auth/react'
-// import 'bootstrap/dist/css/bootstrap.min.css';
+// import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 // import InterfaceLayout from "../components/InterfaceLayout";
 
 function Home() {
@@ -17,7 +18,7 @@ function Home() {
     <div>
         <Card body className="text-center">
             <CardTitle>Username</CardTitle>
-            <div class="container">
+            <div className="container">
                <p><a href="#">Starred topics</a></p>
                <p><a href="#" class="pe-auto">Starred repositories</a></p>
             </div>
@@ -32,6 +33,7 @@ function Home() {
   )
 }
 
+//function that calls the component
 Home.getLayout = function getLayout(Home) {
   return (
       <Layout>{Home}</Layout>
