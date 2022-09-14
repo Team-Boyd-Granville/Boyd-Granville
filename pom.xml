@@ -33,6 +33,13 @@
 			<artifactId>unirest-java</artifactId>
 			<version>3.13.6</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+	<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.5.0</version>
+	</dependency>
 	</dependencies>
 
 	<build>
