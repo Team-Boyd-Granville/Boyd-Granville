@@ -2,7 +2,7 @@ import  { useSession, signIn, signOut } from "next-auth/react"
 import LoginLayout from "../components/LoginLayout"
 
 
-const login = () => {
+const Login = () => {
 const {data: session} = useSession()
 
   if (session) {
