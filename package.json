@@ -1,0 +1,24 @@
+{
+  "name": "github-social-media",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start"
+  },
+  "dependencies": {
+    "bootstrap": "^5.2.0",
+    "next": "^12.2.4",
+    "next-auth": "^4.10.3",
+    "next-scripts": "^0.3.4",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.5.0",
+    "react-dom": "^18.2.0",
+    "reactstrap": "^9.1.3"
+  },
+  "devDependencies": {
+    "eslint": "8.21.0",
+    "eslint-config-next": "12.2.3"
+  }
+}
