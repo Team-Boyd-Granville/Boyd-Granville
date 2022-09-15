@@ -54,10 +54,10 @@ function Home() {
     <div>
         <Card body className="text-center">
             <CardTitle>Username</CardTitle>
-            <div class="container">
+            <div className="container">
                <p><a href="#">Starred topics</a></p>
                <p><a href='#'>My repos: {repos}</a></p>
-               <p><a href="#" class="pe-auto">Starred repositories: {starred}</a></p>
+               <p><a href="#" className="pe-auto">Starred repositories: {starred}</a></p>
             </div>
         </Card>
     </div>
