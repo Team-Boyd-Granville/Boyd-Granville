@@ -21,7 +21,7 @@ const {data: session} = useSession()
   )
 }
 
-login.getLayout = function getLayout(login) {
+Login.getLayout = function getLayout(login) {
   return (
       <LoginLayout>{login}</LoginLayout>
   )
