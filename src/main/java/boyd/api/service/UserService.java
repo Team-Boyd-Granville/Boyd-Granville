@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Service
 public class UserService {
