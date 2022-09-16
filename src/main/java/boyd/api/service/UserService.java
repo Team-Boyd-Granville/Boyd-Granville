@@ -80,7 +80,7 @@ public class UserService {
         return(jsonResponse.getBody().toString());
     }
     
-        @CrossOrigin(origins = "http://localhost:3000")
+        @CrossOrigin(origins = "http://localhost:3000/home")
     public String getRepos(String user) {
         HttpResponse<JsonNode> jsonResponse = Unirest.get("https://api.github.com/users/"+user+"/repos")
                 .header("accept", "application/json").queryString("apiKey", "123")
