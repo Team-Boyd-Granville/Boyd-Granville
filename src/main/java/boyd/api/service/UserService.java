@@ -1,69 +1,47 @@
 package boyd.api.service;
 
+import boyd.api.Repository.UserRepository;
+import boyd.api.model.Repo;
+import boyd.api.model.User;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import java.util.List;
 
 @Service
 public class UserService {
-    private final CloseableHttpClient httpClient = HttpClients.createDefault();
-    public Dictionary<String, String[]> responseCache = new Hashtable<>();
 
-    public String getUser(String user) throws IOException {
-        String url = "https://api.github.com/users/"+user;
-        String eTag = "";
+    @Autowired
+    UserRepository userRepository;
 
-        Iterator<String> test = responseCache.keys().asIterator();
-        while(test.hasNext()) {
-            if(test.next().equals(url)) {
-                eTag = responseCache.get(url)[0];
-            }
+
+    public String getUser(String username) {
+        List<User> user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            return getUserInfo(username);
+        } else {
+            String name = user.get(0).getUsername();
+            String lastName = user.get(0).getLastName();
+            String email = user.get(0).getEmail();
+
+            System.out.println(name + ", " + lastName + ", " + email);
+
+            return name + ", " + lastName + ", " + email;
         }
+    }
 
-        HttpGet request = new HttpGet(url);
-        request.addHeader("If-None-Match", eTag);
+    public String getUserInfo(String user) {
+        return(handleETags.sendGetRequestWithETag("https://api.github.com/users/"+user));
+    }
 
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-
-            // Get HttpResponse Status
-            System.out.println(response.getStatusLine().toString());
-
-            if (Objects.equals(response.getStatusLine().toString(), "HTTP/1.1 304 Not Modified")) {
-                return(responseCache.get(url)[1]);
-            }
-
-            HttpEntity entity = response.getEntity();
-
-            Header[] headers = response.getHeaders("ETag");
-            eTag = headers[0].getValue();
-
-
-            if (entity != null) {
-                // return it as a String
-                String result = EntityUtils.toString(entity);
-                String[] x = {eTag, result};
-                responseCache.put(url, x);
-                return(result);
-            } else {
-                return("Problem?");
-            }
-
-        }
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 
     public String getFollowers(String user) {
@@ -72,32 +50,49 @@ public class UserService {
                 .asJson();
         return(jsonResponse.getBody().toString());
     }
+
     public String getStarred(String user) {
-        HttpResponse<JsonNode> jsonResponse = Unirest.get("https://api.github.com/users/"+user+"/starred")
-                .header("accept", "application/json").queryString("apiKey", "123")
-                .asJson();
-        return(jsonResponse.getBody().toString());
+        String x = handleETags.sendGetRequestWithETag("https://api.github.com/users/"+user+"/starred");
+        JsonNode json = new JsonNode(x);
+
+        int numberRepos = json.getArray().length();
+        StringBuilder r = new StringBuilder();
+        JsonNode j;
+
+        for (int i = 0; i < numberRepos; i++) {
+            String name = json.getArray().getJSONObject(i).get("name").toString();
+            String fullName = json.getArray().getJSONObject(i).get("full_name").toString();
+            String ownerInfo = json.getArray().getJSONObject(i).get("owner").toString();
+            j = new JsonNode(ownerInfo);
+            String owner = j.getObject().get("login").toString();
+            r.append(name).append(", ").append(fullName).append(", ").append(owner).append(".\n");
+        }
+        return(r.toString().trim());
     }
-    
+
     public String getRepos(String user) {
-        HttpResponse<JsonNode> jsonResponse = Unirest.get("https://api.github.com/users/"+user+"/repos")
-                .header("accept", "application/json").queryString("apiKey", "123")
-                .asJson();
-        return(jsonResponse.getBody().toString());
+        String x = handleETags.sendGetRequestWithETag("https://api.github.com/users/"+user+"/repos");
+        JsonNode json = new JsonNode(x);
+
+        int numberRepos = json.getArray().length();
+        StringBuilder r = new StringBuilder();
+        String name, fullName, owner;
+
+        for (int i = 0; i < numberRepos; i++) {
+            name = json.getArray().getJSONObject(i).get("name").toString();
+            fullName = json.getArray().getJSONObject(i).get("full_name").toString();
+            owner = json.getArray().getJSONObject(i).get("owner").toString();
+            r.append(name).append(", ").append(fullName).append(", ").append(owner).append(".\n");
+        }
+        return(r.toString().trim());
     }
 
     public String getEvents(String user) {
-        HttpResponse<JsonNode> jsonResponse = Unirest.get("https://api.github.com/users/"+user+"/events")
-                .header("accept", "application/json").queryString("apiKey", "123")
-                .asJson();
-        return(jsonResponse.getBody().toString());
+        return(handleETags.sendGetRequestWithETag("https://api.github.com/users/"+user+"/events"));
     }
 
     public String getRecvEvents(String user) {
-        HttpResponse<JsonNode> jsonResponse = Unirest.get("https://api.github.com/users/"+user+"/received_events")
-                .header("accept", "application/json").queryString("apiKey", "123")
-                .asJson();
-        return(jsonResponse.getBody().toString());
+        return(handleETags.sendGetRequestWithETag("https://api.github.com/users/"+user+"/received_events"));
     }
 
 

@@ -1,7 +1,11 @@
 package boyd.api.controller;
 
+import boyd.api.model.Repo;
 import boyd.api.service.RepoService;
+import kong.unirest.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,10 +14,29 @@ public class RepoController {
     @Autowired
     RepoService repoService;
 
+    @PostMapping(value = "/repo")
+    public ResponseEntity<?> post(@RequestPart("repo") String newRepo) {
+        JSONObject x = new JSONObject(newRepo);
+
+        Repo repo = new Repo((String) x.get("name"), (String) x.get("owner"), (Integer) x.get("lastCommit"));
+
+        repoService.saveRepo(repo);
+
+        System.out.println("Successfully saved new repo");
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping(value="repo/info", params={"owner", "repo"})
     public String getRepoInfo(@RequestParam String owner, String repo) {
         System.out.println("Get repo info");
         return repoService.getRepoInfo(owner, repo);
+    }
+
+    @GetMapping(value="repo/allInfo", params={"owner", "repo"})
+    public String getAllRepoInfo (@RequestParam String owner, String repo) {
+        System.out.println("Get all repo info");
+        return repoService.getAllRepoInformation(owner, repo);
     }
 
     @GetMapping(value="/repo/languages", params={"owner", "repo"})
@@ -26,6 +49,24 @@ public class RepoController {
     public String getRepoTags(@RequestParam String owner, String repo) {
         System.out.println("Get repos tags");
         return repoService.getRepoTags(owner, repo);
+    }
+
+    @GetMapping(value="/repo/issues", params={"owner", "repo"})
+    public String getRepoIssues(@RequestParam String owner, String repo) {
+        System.out.println("Get repos issues");
+        return repoService.getRepoIssues(owner, repo);
+    }
+
+    @GetMapping(value="/repo/deployments", params={"owner", "repo"})
+    public String getRepoDeployments(@RequestParam String owner, String repo) {
+        System.out.println("Get repos deployments");
+        return repoService.getRepoDeployments(owner, repo);
+    }
+
+    @GetMapping(value="/repo/readme", params={"owner", "repo"})
+    public String getRepoReadme(@RequestParam String owner, String repo) {
+        System.out.println("Get repos readme");
+        return repoService.getRepoReadme(owner, repo);
     }
 
     @GetMapping(value="/repo/commits", params={"owner", "repo"})

@@ -1,0 +1,2 @@
+bug, feature, support, design, package, structure, refractoring, improve,
+performance, duplicate, remove

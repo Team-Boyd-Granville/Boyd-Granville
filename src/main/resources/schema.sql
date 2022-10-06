@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS Commits (
 CREATE TABLE IF NOT EXISTS Repositories (
     RepoID int NOT NULL PRIMARY KEY,
     name varchar(255),
+    owner varchar(255),
     LastCommit int,
     FOREIGN KEY (LastCommit) REFERENCES Commits(CommitID) 
 );
