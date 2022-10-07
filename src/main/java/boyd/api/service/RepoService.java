@@ -163,7 +163,7 @@ public class RepoService {
                     "application/vnd.github+json").queryString("apiKey", "123").asJson();
         } else {
             jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=" + keyword +
-                    "+language:" + language + "&sort=stars&order=desc?page=" + Integer.toString(pageNumber) + "&per_page=10").header("accept",
+                    "+language:" + language + "&sort=stars&order=desc?page=" + Integer.toString(pageNumber) + "&per_page=" +Integer.toString(10*pageNumber) + "").header("accept",
                     "application/vnd.github+json").queryString("apiKey", "123").asJson();
         }
 
@@ -224,8 +224,6 @@ public class RepoService {
 
         String keyword = "music";
         String language = "python";
-
-        // getRepoSearch(keyword, language, pageNumber);
 
         return getRepoSearch(keyword, language, pageNumber);
     }
