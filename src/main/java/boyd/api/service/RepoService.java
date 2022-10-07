@@ -171,7 +171,7 @@ public class RepoService {
         StringBuilder r = new StringBuilder();
         JsonNode x;
 
-        for (int i = 0; i < j.length(); i++) {
+        for (int i = (10 * pageNumber - 10); i < (pageNumber * 10); i++) {
             String name = j.getJSONObject(i).get("name").toString();
             String fullName = j.getJSONObject(i).get("full_name").toString();
             String ownerInfo = j.getJSONObject(i).get("owner").toString();
