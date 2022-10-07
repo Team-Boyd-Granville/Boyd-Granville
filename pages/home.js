@@ -12,12 +12,14 @@ import Alert from 'react-bootstrap/Alert';
 import { Table } from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
 
-import { getUsersRepos, getUsersStarred } from './api/apiService';
+import { getUsersRepos, getUsersStarred, getRecommendedRepos } from './api/apiService';
 
 
 function Home() {
     const { data: session, status } = useSession();
     const [starred, setStarred] = useState([]);
+    const [recommended, setRecommended] = useState([]);
+    const [pageNumber, setPageNumber] = useState(1);
     const [repos, setRepos] = useState([]);
 
     
@@ -45,10 +47,25 @@ function Home() {
                   console.log(error);
               });
       };
+      const getRecommended = () => {
+        getRecommendedRepos(session.user.name, pageNumber)
+            .then(resp => {
+                console.log(resp);
+                setRecommended(r => {
+                return [...r, ...resp]
+                });
+                // setPageNumber(pageNumber + 1);
+            })
+            .catch(error => {
+                alert("Error getting recommended repos, see log");
+                console.log(error);
+            });
+    };
       if (session !== undefined) {
             getStarred();
+            getRecommended();
       }
-    }, [session]);
+    }, [session, pageNumber]);
 
   if (session !== undefined) 
   return (
@@ -72,24 +89,43 @@ function Home() {
         </div>
         <div className="col-5">
         
-        {/* <div className="container mb-5">
+        <div className="container mb-5">
             <div className="list-group">
               <a className="list-group-item list-group-item-action active list-group-item-secondary" aria-current="true">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">Here's what we found based on your interests...</h5>
+                  <h5 className="mb-1">What we found based on your interests:</h5>
                 </div>
-                <small>There are 3 public repositories you might be interested in</small>
+                {/* <small>There are 3 public repositories you might be interested in</small> */}
               </a>
+
+    <div style={{overflow: "scroll", height : "400px"}}>
+    {/* <h1>{JSON.stringify(recommended)}</h1> */}
+      {(typeof recommended === 'undefined') ? (
+        <h1></h1>
+        ) : (
+          recommended.map((repodata) => (
+            // <Link href={'/starredRepositories/'+starredRepo.substring(0, starredRepo.indexOf(','))}>
               <a href="#" className="list-group-item list-group-item-action">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">Repository 1</h5>
+                  <h5 className="mb-1">{repodata}</h5>
                   
                   <small className="text-muted">3 days ago</small>
                 </div>
                 <p className="mb-1">This topic is about ...</p>
                 <small className="text-muted">because you follow xyz</small>
               </a>
-              <a href="#" className="list-group-item list-group-item-action">
+          // </Link>
+          ))
+          )}
+          <a href="#" className="list-group-item list-group-item-action">
+                <div className="d-flex w-100 justify-content-between">
+          <a style={{position : "relative", display : "block", left : "40%", width : "200px"}} onClick={()=>{setPageNumber(pageNumber + 1)}}>View more</a>
+                </div>
+              </a>
+    </div>
+
+
+              {/* <a href="#" className="list-group-item list-group-item-action">
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">Repository 2</h5>
                   <small className="text-muted">4 days ago</small>
@@ -104,9 +140,9 @@ function Home() {
                 </div>
                 <p className="mb-1">This topic is about ... </p>
                 <small className="text-muted">because you starred xyz</small>
-              </a>
+              </a> */}
             </div>
-          </div> */}
+          </div>
     
           {/* <div className="container mb-5">
             <div className="list-group">
@@ -150,7 +186,7 @@ function Home() {
                 </div>
               </a>
 
-              {(typeof starred === 'undefined') ? (
+      {(typeof starred === 'undefined') ? (
           <h1></h1>
       ) : (
         starred.map((starredRepo) => (
