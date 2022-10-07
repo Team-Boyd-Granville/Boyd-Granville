@@ -102,11 +102,11 @@ public class UserService {
             // node = favourite[0].substring(0, favourite[2].length()-2);
             // favourite = getStarred(node).split(" ");
             // node = favourite[2].substring(0, favourite[2].length()-2);
-            node = favourite[0].split(",")[2];
+            node = favourite[1].split(",")[2];
             node = node.substring(0, node.length()-1);
-            favourite = getStarred(node).split("\n");
-            node = favourite[0].split(",")[2];
-            node = node.substring(0, node.length()-1);
+            // favourite = getStarred(node).split("\n");
+            // node = favourite[0].split(",")[2];
+            // node = node.substring(0, node.length()-1);
         // }
         return node;
     }
