@@ -100,8 +100,8 @@ public class UserService {
         // for(int i = 0; i < 3; i++) {
             String[] favourite = getStarred(node).split(" ");
             node = favourite[2].substring(0, favourite[2].length()-2);
-            favourite = getStarred(node).split(" ");
-            node = favourite[2].substring(0, favourite[2].length()-2);
+            // favourite = getStarred(node).split(" ");
+            // node = favourite[2].substring(0, favourite[2].length()-2);
         // }
         return node;
     }
