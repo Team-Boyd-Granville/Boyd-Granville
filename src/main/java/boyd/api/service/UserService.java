@@ -99,7 +99,7 @@ public class UserService {
         String node = username;
         for(int i = 0; i < 3; i++) {
             String tmp = getStarred(node);
-            if (tmp.contains(","))
+            if (!tmp.contains(","))
                 break;
             String[] favourite = getStarred(node).split("\n");
             // node = favourite[0].substring(0, favourite[2].length()-2);
