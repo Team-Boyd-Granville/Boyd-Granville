@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import  { useSession, signIn, signOut } from "next-auth/react"
 import LoginLayout from "../components/LoginLayout"
 
 
-const login = () => {
+function Login() {
 const {data: session} = useSession()
 
   if (session) {
@@ -22,10 +21,10 @@ const {data: session} = useSession()
   )
 }
 
-login.getLayout = function getLayout(login) {
+Login.getLayout = function getLayout(Login) {
   return (
-      <LoginLayout>{login}</LoginLayout>
+      <LoginLayout>{Login}</LoginLayout>
   )
 }
 
-export default login
+export default Login

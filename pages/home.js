@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 // import { Card, Button, CardTitle, CardText } from 'reactstrap';
 import Layout from "../components/Layout"
 import { useSession } from 'next-auth/react'

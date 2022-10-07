@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React from 'react'
 
 function Issue({commitdata, index}) {
@@ -11,7 +10,7 @@ function Issue({commitdata, index}) {
             </div>
             <p className="mb-1">{JSON.stringify(commitdata).split(',')[2]}</p>
             <div><small className="text-muted">repository name</small></div>
-            <small className="text-muted">submitted by "{JSON.stringify(commitdata).split(',')[1]}"</small>
+            <small className="text-muted">submitted by {'"'}{JSON.stringify(commitdata).split(',')[1]}{'"'}</small>
           </a>
     </div>
   )
