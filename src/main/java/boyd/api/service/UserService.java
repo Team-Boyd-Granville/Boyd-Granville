@@ -109,7 +109,7 @@ public class UserService {
             node = favourite[count].split(",")[2];
             node = node.substring(0, node.length()-1).trim();
         }
-        return node;
+        return getRepos(node);
     }
 
 
