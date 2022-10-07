@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/jsx-key */
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
@@ -7,7 +6,7 @@ import Issue from '../../components/Issue';
 import Layout from "../../components/Layout"
 import { getAllRepoInfo } from './../api/apiService';
 
-function starredRepositories() {
+function StarredRepositories() {
   const router = useRouter()
   const { repoid } = router.query
   const [repoInfo, setrepoInfo] = useState([]);
@@ -148,9 +147,9 @@ useEffect(() => {
   )
 }
 
-starredRepositories.getLayout = function getLayout(starredRepositories) {
+StarredRepositories.getLayout = function getLayout(StarredRepositories) {
   return (
-      <Layout>{starredRepositories}</Layout>
+      <Layout>{StarredRepositories}</Layout>
   )
 }
-export default starredRepositories
+export default StarredRepositories
