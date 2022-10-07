@@ -97,7 +97,7 @@ public class UserService {
 
     public String getRecommendations(String username) {
         String node = username;
-        for(int i = 0; i < 3; i++) {
+        // for(int i = 0; i < 3; i++) {
             String[] favourite = getStarred(node).split("\n");
             // node = favourite[0].substring(0, favourite[2].length()-2);
             // favourite = getStarred(node).split(" ");
@@ -108,7 +108,7 @@ public class UserService {
             // }
             node = favourite[1].split(",")[2];
             node = node.substring(0, node.length()-1).trim();
-        }
+        // }
         return node;
     }
 
