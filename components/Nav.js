@@ -1,32 +1,34 @@
-import Link from 'next/link'
-import navStyles from '../styles/Nav.module.css'
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
-function Nav() {
-return (
-    <div className={navStyles.nav}>
-        <ul>
-            <li>
-                <Link href='/home'>Home</Link>
-            </li>
-            {/* <li>
-                <Link href='/topics'>Topics</Link>
-            </li>
-            <li>
-                <Link href='/trending'>Trending</Link>
-            </li>
-            <li>
-                <Link href='/collections'>Collections</Link>
-            </li>
-            <li>
-                <Link href='/events'>Events</Link>
-            </li> */}
-            <li>
-                <Link href='/logout'>Logout</Link>
-            </li>
-            
-        </ul>
-    </div>
-)
+function ColorSchemesExample() {
+  return (
+    <>
+      <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand href="/home">GitHub Explore</Navbar.Brand>
+          <Nav className="me-auto">
+            {/* <Nav.Link href="/home">Home</Nav.Link> */}
+            <Nav.Link href="/logout">Logout</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+      <Navbar bg="light" variant="light">
+        <Container>
+          <Nav className="me-auto navbar">
+            <Nav.Link href="#Topics">Topics</Nav.Link>
+            <Nav.Link href="#Trending">Trending</Nav.Link>
+            <Nav.Link href="#Collection">Collection</Nav.Link>
+            <Nav.Link href="#Events">Events</Nav.Link>
+            <Nav.Link href="#Sponsers">GitHub Sponsers</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+      <br />
+      <br />
+    </>
+  );
 }
 
-export default Nav
+export default ColorSchemesExample;

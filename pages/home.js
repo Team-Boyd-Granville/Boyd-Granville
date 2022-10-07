@@ -1,11 +1,19 @@
-import { Card, Button, CardTitle, CardText } from 'reactstrap';
+/* eslint-disable react/jsx-key */
+// import { Card, Button, CardTitle, CardText } from 'reactstrap';
 import Layout from "../components/Layout"
 import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Link from 'next/link'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
+import { Table } from "react-bootstrap";
+import Card from 'react-bootstrap/Card';
 
 import { getUsersRepos, getUsersStarred } from './api/apiService';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import InterfaceLayout from "../components/InterfaceLayout";
+
 
 function Home() {
     const { data: session, status } = useSession();
@@ -24,50 +32,244 @@ function Home() {
             });
     };
 
-    const getRepos = () => {
-        getUsersRepos(session.user.name)
-            .then(resp => {
-                console.log(resp);
-                setRepos(resp);
-            })
-            .catch(error => {
-                alert("Error getting repos, see log");
-                console.log(error);
-            });
-    };
+    // const getRepos = () => {
+    //     getUsersRepos(session.user.name)
+    //         .then(resp => {
+    //             console.log(resp);
+    //             setRepos(resp);
+    //         })
+    //         .catch(error => {
+    //             alert("Error getting repos, see log");
+    //             console.log(error);
+    //         });
+    // };
 
     useEffect(() => {
-        if (session !== undefined) {
+      if (session !== undefined) {
             getStarred();
-            getRepos();
-        }
-    });
+      }
+    }, [session]);
 
   if (session !== undefined) 
   return (
-    <div>
-        <div>
-          <h1> Welcome, {session.user.name}</h1>
-          <h1 className="text-center">Explore</h1>
-        </div>
-
-    <div>
-        <Card body className="text-center">
-            <CardTitle>Username</CardTitle>
-            <div className="container">
-               <p><a href="#">Starred topics</a></p>
-               <p><a href='#'>My repos: {repos}</a></p>
-               <p><a href="#" className="pe-auto">Starred repositories: {starred}</a></p>
-            </div>
+    <div className="container">
+      <div className="row">
+        <div className="col-3">
+        <div className="container mb-2">
+        <Card style={{ width: '18rem' }}>
+          <Card.Img variant="top" src={session.user.image} />
+          <Card.Body>
+            <Card.Title>{session.user.name}</Card.Title>
+            <Card.Text>
+              Number of Likes: #
+            </Card.Text>
+            <Card.Text>
+              Number of Followers: #
+            </Card.Text>
+          </Card.Body>
         </Card>
-    </div>
-
-        <div>
-            Here what we found based on your interests...
         </div>
-    </div>
+        </div>
+        <div className="col-5">
+        
+        {/* <div className="container mb-5">
+            <div className="list-group">
+              <a className="list-group-item list-group-item-action active list-group-item-secondary" aria-current="true">
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Here's what we found based on your interests...</h5>
+                </div>
+                <small>There are 3 public repositories you might be interested in</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 1</h5>
+                  
+                  <small className="text-muted">3 days ago</small>
+                </div>
+                <p className="mb-1">This topic is about ...</p>
+                <small className="text-muted">because you follow xyz</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 2</h5>
+                  <small className="text-muted">4 days ago</small>
+                </div>
+                <p className="mb-1">This topic is about ... </p>
+                <small className="text-muted">because you starred xyz</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 3</h5>
+                  <small className="text-muted">5 days ago</small>
+                </div>
+                <p className="mb-1">This topic is about ... </p>
+                <small className="text-muted">because you starred xyz</small>
+              </a>
+            </div>
+          </div> */}
+    
+          {/* <div className="container mb-5">
+            <div className="list-group">
+              <a className="list-group-item list-group-item-action active list-group-item-light" aria-current="true">
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Trending repositories:</h5>
+                </div>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 1</h5>
+                  <small className="text-muted">5 days ago</small>
+                </div>
+                <p className="mb-1">This topic is about ... </p>
+                <small className="text-muted">-user-</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 2</h5>
+                  <small className="text-muted">5 days ago</small>
+                </div>
+                <p className="mb-1">This topic is about ... </p>
+                <small className="text-muted">-user-</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 3</h5>
+                  <small className="text-muted">5 days ago</small>
+                </div>
+                <p className="mb-1">This topic is about ... </p>
+                <small className="text-muted">-user-</small>
+              </a>
+            </div>
+          </div> */}
 
-  )
+          <div className="container mb-5">
+            <div className="list-group">
+              <a className="list-group-item list-group-item-action active list-group-item-warning" aria-current="true">
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Starred Projects:</h5>
+                </div>
+              </a>
+
+              {(typeof starred === 'undefined') ? (
+          <h1></h1>
+      ) : (
+        starred.map((starredRepo) => (
+          <Link href={'/starredRepositories/'+starredRepo.substring(0, starredRepo.indexOf(','))}>
+          <a className="list-group-item list-group-item-action">
+          <div className="d-flex w-100 justify-content-between">
+              <h5 className="mb-1">{starredRepo}</h5>
+              <small className="text-muted">5 days ago</small>
+            </div>
+            <p className="mb-1">latest update </p>
+            <small className="text-muted">-user-</small>
+          </a>
+          </Link>
+        ))
+        )}
+              {/* <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 1</h5>
+                  <small className="text-muted">5 days ago</small>
+                </div>
+                <p className="mb-1">latest update </p>
+                <small className="text-muted">-user-</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 2</h5>
+                  <small className="text-muted">5 days ago</small>
+                </div>
+                <p className="mb-1">latest update </p>
+                <small className="text-muted">-user-</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 3</h5>
+                  <small className="text-muted">5 days ago</small>
+                </div>
+                <p className="mb-1">latest update </p>
+                <small className="text-muted">-user-</small>
+              </a> */}
+            </div>
+          </div>
+{/*     
+          <div className="container mb-5">
+            <div className="list-group">
+              <a className="list-group-item list-group-item-action active list-group-item-warning" aria-current="true">
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Starred Topics:</h5>
+                </div>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 1</h5>
+                  <small className="text-muted">5 days ago</small>
+                </div>
+                <p className="mb-1">latest update </p>
+                <small className="text-muted">-user-</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 2</h5>
+                  <small className="text-muted">5 days ago</small>
+                </div>
+                <p className="mb-1">latest update </p>
+                <small className="text-muted">-user-</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Repository 3</h5>
+                  <small className="text-muted">5 days ago</small>
+                </div>
+                <p className="mb-1">latest update </p>
+                <small className="text-muted">-user-</small>
+              </a>
+            </div>
+          </div> */}
+    
+        </div>
+    
+        {/* <div className="col-4">
+        <div className="container mb-5">
+            <div className="list-group">
+              <a className="list-group-item list-group-item-action active list-group-item-primary" aria-current="true">
+                <div className="d-flex w-100 justify-content-between">
+                  <h6 className="mb-1">Featured Team Projects</h6>
+                </div>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Project 1</h5>
+                </div>
+                <p className="mb-1">This topic is about ...</p>
+                <small className="text-muted">-team members-</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Project 2</h5>
+                </div>
+                <p className="mb-1">This topic is about ...</p>
+                <small className="text-muted">-team members-</small>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+              <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">Project 3</h5>
+                </div>
+                <p className="mb-1">This topic is about ...</p>
+                <small className="text-muted">-team members-</small>
+              </a>
+            </div>
+          </div>
+  
+    
+        </div> */}
+        
+      </div>
+    </div>
+    
+        
+    
+      )
 }
 
 Home.getLayout = function getLayout(Home) {
