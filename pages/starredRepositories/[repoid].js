@@ -5,6 +5,13 @@ import Commit from '../../components/Commit';
 import Issue from '../../components/Issue';
 import Layout from "../../components/Layout"
 import { getAllRepoInfo } from './../api/apiService';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
+import { Table } from "react-bootstrap";
+import Card from 'react-bootstrap/Card';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function StarredRepositories() {
   const router = useRouter()
