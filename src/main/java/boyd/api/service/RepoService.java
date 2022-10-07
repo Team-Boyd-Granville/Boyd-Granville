@@ -179,8 +179,8 @@ public class RepoService {
             String owner = x.getObject().get("login").toString();
             r.append(name).append(", ").append(fullName).append(", ").append(owner).append(".\n");
         }
-        return(jsonResponse.getBody().getObject().get("items").toString());
-        // return (r.toString());
+        // return(jsonResponse.getBody().getObject().get("items").toString());
+        return (r.toString());
     }
 
     public String getAllRepoInformation(String owner, String repo) {
