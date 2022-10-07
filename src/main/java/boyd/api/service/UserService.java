@@ -95,5 +95,10 @@ public class UserService {
         return(handleETags.sendGetRequestWithETag("https://api.github.com/users/"+user+"/received_events"));
     }
 
+    public String getRecommendations(String username) {
+        String[] favourite = getStarred(username).split(" ");
+        return "lololo";
+    }
+
 
 }
