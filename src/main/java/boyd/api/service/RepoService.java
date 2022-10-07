@@ -180,7 +180,7 @@ public class RepoService {
             r.append(name).append(", ").append(fullName).append(", ").append(owner).append(".\n");
         }
         // return(jsonResponse.getBody().getObject().get("items").toString());
-        return (r.toString());
+        return (r.toString().trim());
     }
 
     public String getAllRepoInformation(String owner, String repo) {
