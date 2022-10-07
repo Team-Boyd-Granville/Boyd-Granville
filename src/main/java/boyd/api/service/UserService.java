@@ -1,6 +1,7 @@
 package boyd.api.service;
 
 import boyd.api.Repository.UserRepository;
+import boyd.api.controller.RepoController;
 import boyd.api.model.Repo;
 import boyd.api.model.User;
 import kong.unirest.HttpResponse;
@@ -94,23 +95,5 @@ public class UserService {
     public String getRecvEvents(String user) {
         return(handleETags.sendGetRequestWithETag("https://api.github.com/users/"+user+"/received_events"));
     }
-
-    public String getRecommendations(String username) {
-        String node = username;
-        for(int i = 0; i < 3; i++) {
-            String tmp = getStarred(node);
-            if (!tmp.contains(","))
-                break;
-            String[] favourite = getStarred(node).split("\n");
-            int count = 0;
-            while (favourite[count].contains(node)) {
-                count++;
-            }
-            node = favourite[count].split(",")[2];
-            node = node.substring(0, node.length()-1).trim();
-        }
-        return getRepos(node);
-    }
-
 
 }

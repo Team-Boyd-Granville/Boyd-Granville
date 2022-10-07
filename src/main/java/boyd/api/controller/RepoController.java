@@ -84,6 +84,13 @@ public class RepoController {
     @GetMapping(value="/repo/search", params={"keyword", "language"})
     public String getRepoSearch(@RequestParam String keyword, String language) {
         System.out.println("Search for repo");
-        return repoService.getRepoSearch(keyword, language);
+        return repoService.getRepoSearch(keyword, language, 1);
     }
+
+    @GetMapping(value="/repo/recommendations", params={"username", "pageNumber"})
+    public String getRecommendations(@RequestParam String username, int pageNumber) {
+        System.out.println("Get users recommendations");
+        return repoService.getRecommendations(username, pageNumber);
+    }
+
 }

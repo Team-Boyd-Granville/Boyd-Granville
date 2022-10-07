@@ -52,13 +52,7 @@ public class UserController {
         System.out.println("Get users starred");
         return userService.getStarred(username);
     }
-
-    @GetMapping(value="/user/recommendations", params="username")
-    public String getRecommendations(@RequestParam String username) {
-        System.out.println("Get users recommendations");
-        return userService.getRecommendations(username);
-    }
-
+    
     @GetMapping(value="/user/repos", params="username")
     public String getRepos(@RequestParam String username) {
         System.out.println("Get users repos");
