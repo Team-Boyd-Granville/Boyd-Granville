@@ -20,21 +20,10 @@ function Home() {
     const [starred, setStarred] = useState([]);
     const [repos, setRepos] = useState([]);
 
-    const getStarred = () => {
-        getUsersStarred(session.user.name)
-            .then(resp => {
-                console.log(resp);
-                setStarred(resp);
-            })
-            .catch(error => {
-                alert("Error getting starred repos, see log");
-                console.log(error);
-            });
-    };
-
+    
     // const getRepos = () => {
-    //     getUsersRepos(session.user.name)
-    //         .then(resp => {
+      //     getUsersRepos(session.user.name)
+      //         .then(resp => {
     //             console.log(resp);
     //             setRepos(resp);
     //         })
@@ -43,8 +32,19 @@ function Home() {
     //             console.log(error);
     //         });
     // };
-
+    
     useEffect(() => {
+      const getStarred = () => {
+          getUsersStarred(session.user.name)
+              .then(resp => {
+                  console.log(resp);
+                  setStarred(resp);
+              })
+              .catch(error => {
+                  alert("Error getting starred repos, see log");
+                  console.log(error);
+              });
+      };
       if (session !== undefined) {
             getStarred();
       }
@@ -154,7 +154,7 @@ function Home() {
           <h1></h1>
       ) : (
         starred.map((starredRepo) => (
-          <Link href={'/starredRepositories/'+starredRepo.substring(0, starredRepo.indexOf(','))}>
+          <Link href={'/StarredRepositories/'+starredRepo.substring(0, starredRepo.indexOf(','))}>
           <a className="list-group-item list-group-item-action">
           <div className="d-flex w-100 justify-content-between">
               <h5 className="mb-1">{starredRepo}</h5>
