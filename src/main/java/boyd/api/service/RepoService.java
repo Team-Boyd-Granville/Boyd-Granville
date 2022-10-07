@@ -159,7 +159,7 @@ public class RepoService {
         HttpResponse<JsonNode> jsonResponse;
         // per_page specifies how many repos you want to be returned
         if (keyword.equals("") && language.equals("")) {
-            jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=stars:1000..2000&fork:true&sort=stars&order=desc?page=1&per_page=3").header("accept",
+            jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=stars:1000..2000&fork:true&sort=stars&order=desc?page=1&per_page=20").header("accept",
                     "application/vnd.github+json").queryString("apiKey", "123").asJson();
         } else {
             jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=" + keyword +
