@@ -104,16 +104,16 @@ public class RepoService {
         int jsonLength = json.length();
         StringBuilder r = new StringBuilder();
 
-        if (importantWords == null) {
-            populateImportantWordArray();
-        }
+        // if (importantWords == null) {
+        //     populateImportantWordArray();
+        // }
 
         for (int i = 0; i < jsonLength; i++) {
             JSONObject j = json.getJSONObject(i).getJSONObject("commit");
             String info = j.getJSONObject("author").get("name") + ", " + j.getJSONObject("author").get("date");
             String message = j.get("message").toString();
 
-            message = tagString(message) + message;
+            // message = tagString(message) + message;
             if (i == 3)
                 break;
             r.append(info).append(", ").append(message).append("\n");
