@@ -114,7 +114,8 @@ public class RepoService {
             String message = j.get("message").toString();
 
             message = tagString(message) + message;
-
+            if (i == 3)
+                break;
             r.append(info).append(", ").append(message).append("\n");
         }
 
@@ -184,7 +185,7 @@ public class RepoService {
 
     public String getAllRepoInformation(String owner, String repo) {
 
-        String m1 = getRepoTags(owner, repo);
+        // String m1 = getRepoTags(owner, repo);
         String m2 = getRepoLanguages(owner, repo);
         String m3 = getRepoTopics(owner, repo);
         String m4 = getRepoCommits(owner, repo);
@@ -194,7 +195,7 @@ public class RepoService {
 
         String r = "";
 
-        r += "Tags:\n" + m1 + "\n";
+        // r += "Tags:\n" + m1 + "\n";
         r += "Languages:\n" + m2 + "\n";
         r += "Topics:\n" + m3 + "\n";
         r += "Commits:\n" + m4 + "\n";
