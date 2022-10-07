@@ -163,7 +163,7 @@ public class RepoService {
                     "application/vnd.github+json").queryString("apiKey", "123").asJson();
         } else {
             jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=" + keyword +
-                    "+language:" + language + "&sort=stars&order=desc?page=1&per_page=3").header("accept",
+                    "+language:" + language + "&sort=stars&order=desc?page=1&per_page=20").header("accept",
                     "application/vnd.github+json").queryString("apiKey", "123").asJson();
         }
 
