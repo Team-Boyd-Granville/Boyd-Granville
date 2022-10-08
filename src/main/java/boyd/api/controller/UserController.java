@@ -47,6 +47,12 @@ public class UserController {
         return userService.getFollowers(username);
     }
 
+    @GetMapping(value="/user/following", params="username")
+    public String getFollowing(@RequestParam String username) {
+        System.out.println("Get users followed users");
+        return userService.getFollowing(username);
+    }
+
     @GetMapping(value="/user/starred", params="username")
     public String getStarred(@RequestParam String username) {
         System.out.println("Get users starred");

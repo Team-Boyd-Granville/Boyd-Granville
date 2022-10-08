@@ -52,6 +52,13 @@ public class UserService {
         return(jsonResponse.getBody().toString());
     }
 
+    public String getFollowing(String user) {
+        HttpResponse<JsonNode> jsonResponse = Unirest.get("https://api.github.com/users/" + user + "/following")
+                .header("accept", "application/json").queryString("apiKey", "123")
+                .asJson();
+        return(jsonResponse.getBody().toString());
+    }
+
     public String getStarred(String user) {
         String x = handleETags.sendGetRequestWithETag("https://api.github.com/users/"+user+"/starred");
         JsonNode json = new JsonNode(x);
