@@ -12,7 +12,7 @@ import Alert from 'react-bootstrap/Alert';
 import { Table } from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
 
-import { getUsersRepos, getUsersStarred, getRecommendedRepos } from './api/apiService';
+import { getUsersRepos, getUsersStarred, getRecommendedRepos, getUserInfo } from './api/apiService';
 
 
 function Home() {
@@ -21,21 +21,22 @@ function Home() {
     const [recommended, setRecommended] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [repos, setRepos] = useState([]);
+    const [userInfo, setUserInfo] = useState({})
 
     
-    // const getRepos = () => {
-      //     getUsersRepos(session.user.name)
-      //         .then(resp => {
-    //             console.log(resp);
-    //             setRepos(resp);
-    //         })
-    //         .catch(error => {
-    //             alert("Error getting repos, see log");
-    //             console.log(error);
-    //         });
-    // };
     
     useEffect(() => {
+      const getUserDetails = () => {
+            getUserInfo(session.user.name)
+                .then(resp => {
+                  console.log(resp);
+                  setUserInfo(resp);
+              })
+              .catch(error => {
+                  alert("Error getting repos, see log");
+                  console.log(error);
+              });
+      };
       const getStarred = () => {
           getUsersStarred(session.user.name)
               .then(resp => {
@@ -54,7 +55,6 @@ function Home() {
                 setRecommended(r => {
                 return [...r, ...resp]
                 });
-                // setPageNumber(pageNumber + 1);
             })
             .catch(error => {
                 alert("Error getting recommended repos, see log");
@@ -62,6 +62,7 @@ function Home() {
             });
     };
       if (session !== undefined) {
+            getUserDetails();
             getStarred();
             getRecommended();
       }
@@ -78,10 +79,32 @@ function Home() {
           <Card.Body>
             <Card.Title>{session.user.name}</Card.Title>
             <Card.Text>
-              Number of Likes: #
+              Bio: {JSON.stringify(userInfo.bio)}
             </Card.Text>
             <Card.Text>
-              Number of Followers: #
+              Blog: {JSON.stringify(userInfo.blog)}
+            </Card.Text>
+            <Card.Text>
+              Followers: <Link href={'/followers'}><a style={{ textDecoration: 'none' }}>{JSON.stringify(userInfo.followers)}</a></Link>
+            </Card.Text>
+            <Card.Text>
+              Following: <Link href={'/following'}><a style={{ textDecoration: 'none' }}>{JSON.stringify(userInfo.following)}</a></Link>
+            </Card.Text>
+            </Card.Body>
+        </Card>
+        <Card style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Text>
+              Company: {JSON.stringify(userInfo.company)}
+            </Card.Text>
+            <Card.Text>
+              Location: {JSON.stringify(userInfo.location)}
+            </Card.Text>
+            <Card.Text>
+              Public Repos: <a href={'/home'} style={{ textDecoration: 'none' }}>{JSON.stringify(userInfo.public_repos)}</a>
+            </Card.Text>
+            <Card.Text>
+              Public Gists: {JSON.stringify(userInfo.public_gists)}
             </Card.Text>
           </Card.Body>
         </Card>
@@ -123,7 +146,6 @@ function Home() {
                 </div>
               </a>
     </div>
-
 
               {/* <a href="#" className="list-group-item list-group-item-action">
                 <div className="d-flex w-100 justify-content-between">

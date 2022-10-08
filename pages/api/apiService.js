@@ -42,3 +42,24 @@ export async function getRecommendedRepos(username, pageNumber) {
     });
     return (await resp.text()).split('\n');
 }
+
+export async function getUserInfo(username) {
+    const resp = await fetch(`${baseURL}/user/info?username=${username}`, {
+        method: 'GET'
+    });
+    return (await resp.json());
+}
+
+export async function getFollowers(username) {
+    const resp = await fetch(`${baseURL}/user/followers?username=${username}`, {
+        method: 'GET'
+    });
+    return await resp.json();
+}
+
+export async function getFollowing(username) {
+    const resp = await fetch(`${baseURL}/user/following?username=${username}`, {
+        method: 'GET'
+    });
+    return await resp.json();
+}
