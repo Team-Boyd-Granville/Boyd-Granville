@@ -27,4 +27,4 @@ Login.getLayout = function getLayout(Login) {
   )
 }
 
-export default login
+export default Login
