@@ -19,20 +19,23 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-
     public String getUser(String username) {
-        List<User> user = userRepository.findByUsername(username);
-
-        if (user == null) {
-            return getUserInfo(username);
-        } else {
-            String name = user.get(0).getUsername();
-            String email = user.get(0).getEmail();
-            String topics = user.get(0).getTopics();
-
-            System.out.println(name + ", " + topics + ", " + email);
-
-            return name + ", " + topics + ", " + email;
+        try {
+            List<User> user = userRepository.findByUsername(username);
+    
+            if (user == null) {
+                return getUserInfo(username);
+            } else {
+                String name = user.get(0).getUsername();
+                String email = user.get(0).getEmail();
+                String topics = user.get(0).getTopics();
+                System.out.println(name + ", " + topics + ", " + email);
+    
+                return name + ", " + topics + ", " + email;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
     }
 
