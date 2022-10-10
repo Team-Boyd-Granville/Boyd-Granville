@@ -21,7 +21,7 @@ public class UserController {
         JSONObject x = new JSONObject(newUser);
 
         String existingUser = getUser((String) x.get("username"));
-        if (existingUser != null || existingUser != "") {
+        if (existingUser.length() > 3) {
             
             User user = new User((String) x.get("username"), (String) x.get("email"), (String) x.get("topics"));
             
