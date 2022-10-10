@@ -20,21 +20,21 @@ public class UserService {
     UserRepository userRepository;
 
 
-    public String getUser(String username) {
-        List<User> user = userRepository.findByUsername(username);
+    // public String getUser(String username) {
+    //     List<User> user = userRepository.findByUsername(username);
 
-        if (user == null) {
-            return getUserInfo(username);
-        } else {
-            String name = user.get(0).getUsername();
-            String email = user.get(0).getEmail();
-            String topics = user.get(0).getTopics();
+    //     if (user == null) {
+    //         return getUserInfo(username);
+    //     } else {
+    //         String name = user.get(0).getUsername();
+    //         String email = user.get(0).getEmail();
+    //         String topics = user.get(0).getTopics();
 
-            System.out.println(name + ", " + lastName + ", " + email);
+    //         System.out.println(name + ", " + lastName + ", " + email);
 
-            return name + ", " + lastName + ", " + email;
-        }
-    }
+    //         return name + ", " + lastName + ", " + email;
+    //     }
+    // }
 
     public String getUserInfo(String user) {
         return(handleETags.sendGetRequestWithETag("https://api.github.com/users/"+user));
