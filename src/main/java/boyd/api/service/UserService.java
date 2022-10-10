@@ -27,8 +27,8 @@ public class UserService {
             return getUserInfo(username);
         } else {
             String name = user.get(0).getUsername();
-            String lastName = user.get(0).getLastName();
             String email = user.get(0).getEmail();
+            String topics = user.get(0).getTopics();
 
             System.out.println(name + ", " + lastName + ", " + email);
 

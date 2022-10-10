@@ -15,23 +15,20 @@ public class User {
     @Column(name = "UserID")
     private Integer userId;
 
-    @Column(name = "Firstname")
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "Lastname")
-    private String lastName = "test last name";
-
-    @Column(name = "Email")
+    @Column(name = "email")
     private String email;
 
-//    @Column(name = "topics")
-//    String topics;
+    @Column(name = "topics")
+    String topics;
 
     public User() {}
 
     public User(String username, String email, String topics) {
         this.username = username;
         this.email = email;
-//        this.topics = topics;
+        this.topics = topics;
     }
 }
