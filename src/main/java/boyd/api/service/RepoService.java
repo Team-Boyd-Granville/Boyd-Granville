@@ -214,9 +214,8 @@ public class RepoService {
         String[] userTopics = components[1].split(" ");
 
         String keyword = userTopics[0];
-        String language = "";
+        String language = "python";
 
         return getRepoSearch(keyword, language, pageNumber);
     }
-
 }
