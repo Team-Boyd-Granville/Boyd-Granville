@@ -155,15 +155,15 @@ public class RepoService {
         return (handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/topics"));
     }
 
-    public String getRepoSearch(String keyword, String language) {
+    public String getRepoSearch(String keyword, String language, int pageNumber) {
         HttpResponse<JsonNode> jsonResponse;
         // per_page specifies how many repos you want to be returned
         if (keyword.equals("") && language.equals("")) {
-            jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=stars:1000..2000&fork:true&sort=stars&order=desc?page=1&per_page=20").header("accept",
+            jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=stars:1000..2000&fork:true&sort=stars&order=desc?page=" + Integer.toString(pageNumber) + "&per_page=10").header("accept",
                     "application/vnd.github+json").queryString("apiKey", "123").asJson();
         } else {
             jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=" + keyword +
-                    "+language:" + language + "&sort=stars&order=desc?page=1&per_page=20").header("accept",
+                    "+language:" + language + "&sort=stars&order=desc?page=" + Integer.toString(pageNumber) + "&per_page=" +Integer.toString(10*pageNumber) + "").header("accept",
                     "application/vnd.github+json").queryString("apiKey", "123").asJson();
         }
 
@@ -171,7 +171,7 @@ public class RepoService {
         StringBuilder r = new StringBuilder();
         JsonNode x;
 
-        for (int i = 0; i < j.length(); i++) {
+        for (int i = (10 * pageNumber - 10); i < (pageNumber * 10); i++) {
             String name = j.getJSONObject(i).get("name").toString();
             String fullName = j.getJSONObject(i).get("full_name").toString();
             String ownerInfo = j.getJSONObject(i).get("owner").toString();
@@ -180,7 +180,7 @@ public class RepoService {
             r.append(name).append(", ").append(fullName).append(", ").append(owner).append(".\n");
         }
         // return(jsonResponse.getBody().getObject().get("items").toString());
-        return (r.toString());
+        return (r.toString().trim());
     }
 
     public String getAllRepoInformation(String owner, String repo) {
@@ -204,6 +204,28 @@ public class RepoService {
         // r += "ReadMe:\n" + m7 + "\n";
 
         return r;
+    }
+
+    public String getRecommendations(String username, int pageNumber) {
+        // String node = username;
+        // for(int i = 0; i < 3; i++) {
+        //     String tmp = getStarred(node);
+        //     if (!tmp.contains(","))
+        //         break;
+        //     String[] favourite = getStarred(node).split("\n");
+        //     int count = 0;
+        //     while (favourite[count].contains(node)) {
+        //         count++;
+        //     }
+        //     node = favourite[count].split(",")[2];
+        //     node = node.substring(0, node.length()-1).trim();
+        // }
+        // return getRepos(node);
+
+        String keyword = "music";
+        String language = "python";
+
+        return getRepoSearch(keyword, language, pageNumber);
     }
 
 }
