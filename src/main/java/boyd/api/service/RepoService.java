@@ -1,6 +1,7 @@
 package boyd.api.service;
 
 import boyd.api.Repository.RepoRepository;
+import boyd.api.controller.UserController;
 import boyd.api.model.Repo;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -207,23 +208,13 @@ public class RepoService {
     }
 
     public String getRecommendations(String username, int pageNumber) {
-        // String node = username;
-        // for(int i = 0; i < 3; i++) {
-        //     String tmp = getStarred(node);
-        //     if (!tmp.contains(","))
-        //         break;
-        //     String[] favourite = getStarred(node).split("\n");
-        //     int count = 0;
-        //     while (favourite[count].contains(node)) {
-        //         count++;
-        //     }
-        //     node = favourite[count].split(",")[2];
-        //     node = node.substring(0, node.length()-1).trim();
-        // }
-        // return getRepos(node);
+        UserService userService = new UserService();
+        String currentUser = userService.getUser(username);
+        String[] components = currentUser.split(",");
+        String[] userTopics = components[1].split(" ");
 
-        String keyword = "music";
-        String language = "python";
+        String keyword = userTopics[0];
+        String language = "";
 
         return getRepoSearch(keyword, language, pageNumber);
     }
