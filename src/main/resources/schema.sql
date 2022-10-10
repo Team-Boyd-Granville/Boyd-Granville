@@ -2,9 +2,9 @@ DROP TABLE IF EXISTS Users, Repositories, Commits, FollowReferences;
 
 CREATE TABLE IF NOT EXISTS Users (
     UserID int NOT NULL PRIMARY KEY,
-    FirstName varchar(255),
-    LastName varchar(255),
-    email varchar(255) NOT NULL
+    Username varchar(255),
+    Email varchar(255),
+    Topics varchar(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Commits (
