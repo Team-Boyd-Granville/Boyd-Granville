@@ -210,10 +210,11 @@ public class RepoService {
     public String getRecommendations(String username, int pageNumber) {
         UserService userService = new UserService();
         String currentUser = userService.getUser(username);
-        String[] components = currentUser.split(",");
-        String[] userTopics = components[1].trim().split(" ");
+        String[] components = currentUser.split(", ");
+        String[] userTopics = components[1].split(" ");
 
-        String keyword = userTopics[0];
+        // String keyword = userTopics[0];
+        String keyword = "music";
         String language = "python";
 
         return getRepoSearch(keyword, language, pageNumber);
