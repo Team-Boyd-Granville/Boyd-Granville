@@ -22,7 +22,6 @@ public class UserController {
 
         String existingUser = getUser((String) x.get("username"));
         if (existingUser != null || existingUser != "") {
-
             
             User user = new User((String) x.get("username"), (String) x.get("email"), (String) x.get("topics"));
             
@@ -30,10 +29,8 @@ public class UserController {
             
             System.out.println("Successfully saved new user");
             
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
-        }
+        } 
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/user", params = "username")
