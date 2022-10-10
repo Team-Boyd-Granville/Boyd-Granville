@@ -110,4 +110,4 @@ Preferences.getLayout = function getLayout(Preferences) {
   )
 }
 
-export default preferences
+export default Preferences
