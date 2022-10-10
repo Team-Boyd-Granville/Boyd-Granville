@@ -10,7 +10,7 @@ import { postUser } from './api/apiService';
 import { useSession } from 'next-auth/react'
 
 
-function preferences() {
+function Preferences() {
   const { data: session, status } = useSession();
 
   var listTopics = new Array();
@@ -104,9 +104,9 @@ function preferences() {
 }
 
 
-preferences.getLayout = function getLayout(preferences) {
+Preferences.getLayout = function getLayout(Preferences) {
   return (
-    <Layout>{preferences}</Layout>
+    <Layout>{Preferences}</Layout>
   )
 }
 

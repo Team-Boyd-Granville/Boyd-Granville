@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import  { signOut } from "next-auth/react"
+import { signOut } from "next-auth/react"
 
 export default function Logout() {
-    useEffect(() => {
+  useEffect(() => {
     signOut({ callbackUrl: `/login` })
   });
 }

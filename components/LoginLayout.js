@@ -9,8 +9,8 @@ function LoginLayout({ children }) {
     return (
         <>
         <Nav/>
-        <div class="container">
-            <main class="container">
+        <div className="container">
+            <main className="container">
                 {children}
                 <Image src={MyImage} className='img-fluid shadow-4' alt='...' />
             </main>
