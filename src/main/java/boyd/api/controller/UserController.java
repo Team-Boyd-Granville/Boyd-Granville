@@ -20,16 +20,12 @@ public class UserController {
     public ResponseEntity<?> post(@RequestPart("user") String newUser) {
         JSONObject x = new JSONObject(newUser);
 
-        String existingUser = getUser((String) x.get("username"));
-        if (existingUser.length() > 3) {
-            
-            User user = new User((String) x.get("username"), (String) x.get("email"), (String) x.get("topics"));
-            
-            userService.saveUser(user);
-            
-            System.out.println("Successfully saved new user");
-            
-        } 
+        User user = new User((String) x.get("username"), (String) x.get("email"), (String) x.get("topics"));
+
+        userService.saveUser(user);
+
+        System.out.println("Successfully saved new user");
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
