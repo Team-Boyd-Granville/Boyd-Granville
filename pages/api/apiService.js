@@ -63,3 +63,27 @@ export async function getFollowing(username) {
     });
     return await resp.json();
 }
+
+export async function postUser(username, email, topics) {
+    const formData = new FormData();
+
+    var t = "";
+    topics.forEach(element => {
+        t += element + " ";
+    });
+    t = t.trim();
+
+    let user = {
+        "username": username,
+        "email": email,
+        "topics": t
+    }
+    formData.append("user", JSON.stringify(user));
+
+    return fetch(`${baseURL}/users`, {
+        method: 'POST',
+        headers: {  },
+        body: formData
+    });
+
+}
