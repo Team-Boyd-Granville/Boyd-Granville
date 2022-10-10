@@ -211,7 +211,7 @@ public class RepoService {
         UserService userService = new UserService();
         String currentUser = userService.getUser(username);
         String[] components = currentUser.split(",");
-        String[] userTopics = components[1].split(" ");
+        String[] userTopics = components[1].trim().split(" ");
 
         String keyword = userTopics[0];
         String language = "python";
