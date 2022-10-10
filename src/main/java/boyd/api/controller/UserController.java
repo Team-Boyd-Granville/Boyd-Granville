@@ -20,13 +20,20 @@ public class UserController {
     public ResponseEntity<?> post(@RequestPart("user") String newUser) {
         JSONObject x = new JSONObject(newUser);
 
-        User user = new User((String) x.get("username"), (String) x.get("email"), (String) x.get("topics"));
+        String existingUser = getUser((String) x.get("username"));
+        if (existingUser != null && existingUser != "") {
 
-        userService.saveUser(user);
-
-        System.out.println("Successfully saved new user");
-
-        return new ResponseEntity<>(HttpStatus.OK);
+            
+            User user = new User((String) x.get("username"), (String) x.get("email"), (String) x.get("topics"));
+            
+            userService.saveUser(user);
+            
+            System.out.println("Successfully saved new user");
+            
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+        }
     }
 
     @GetMapping(value = "/user", params = "username")
