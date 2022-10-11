@@ -5,7 +5,7 @@ function Issue({commitdata, index}) {
     <div>
              <a href="#" className="list-group-item list-group-item-action">
           <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">{JSON.stringify(commitdata).split(',')[0]}</h5>
+              <h5 className="mb-1">{JSON.stringify(commitdata).split(',')[0].substring(1)}</h5>
               {/* <small className="text-muted">4 days ago</small> */}
             </div>
             <p className="mb-1">{JSON.stringify(commitdata).split(',')[2]}</p>
