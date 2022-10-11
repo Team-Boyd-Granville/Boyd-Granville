@@ -94,6 +94,10 @@ public class RepoService {
         return (handleETags.sendGetRequestWithETag("https://raw.githubusercontent.com/" + owner + "/" + repo + "/main/README.md"));
     }
 
+    public String getRepoContributors(String owner, String repo) {
+        return (handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/contributors?per_page=100&page=1"));
+    }
+
     public String getRepoCommits(String owner, String repo) {
         String x = handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/commits");
         JSONArray json = new JsonNode(x).getArray();

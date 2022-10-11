@@ -70,6 +70,12 @@ public class RepoController {
         return repoService.getRepoReadme(owner, repo);
     }
 
+    @GetMapping(value="/repo/contributors", params={"owner", "repo"})
+    public String getRepoContributors(@RequestParam String owner, String repo) {
+        System.out.println("Get repos contributors");
+        return repoService.getRepoContributors(owner, repo);
+    }
+
     @GetMapping(value="/repo/commits", params={"owner", "repo"})
     public String getRepoCommits(@RequestParam String owner, String repo) {
         System.out.println("Get repos commits");
