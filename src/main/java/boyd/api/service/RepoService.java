@@ -157,7 +157,7 @@ public class RepoService {
             if (updatedDocumentation != (null) && outdatedDocumentation != (null)) {
                 r.append(", ").append(updatedDocumentation).append(", ").append(outdatedDocumentation);
             }
-            r.append("\n");
+            r.append("^");
         }
         System.out.println(r.toString().trim());
 
@@ -238,11 +238,11 @@ public class RepoService {
         String r = "";
 
         // r += "Tags:\n" + m1 + "\n";
-        r += "Languages:\n" + m2 + "\n";
-        r += "Topics:\n" + m3 + "\n";
-        r += "Commits:\n" + m4 + "\n";
+        r += "Languages:\n" + m2 + "^";
+        r += "Topics:\n" + m3 + "^";
+        r += "Commits:\n" + m4 + "^";
         // r += "Issues:\n" + m5 + "\n";
-        r += "Deployments:\n" + m6 + "\n";
+        r += "Deployments:\n" + m6 + "^";
 
         return r;
     }
