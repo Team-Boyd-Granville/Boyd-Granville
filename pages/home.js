@@ -212,7 +212,8 @@ function Home() {
           <h1></h1>
       ) : (
         starred.map((starredRepo) => (
-          <Link href={'/starredRepositories/'+starredRepo.substring(0, starredRepo.indexOf(','))}>
+          <Link href={'/starredRepositories/'+starredRepo.split(",")[0].trim()+'*'+starredRepo.split(",")[2].replace(".","").trim()}>
+            {/* starredRepo.split(",")[1].trim() */}
           <a className="list-group-item list-group-item-action">
           <div className="d-flex w-100 justify-content-between">
               <h5 className="mb-1">{starredRepo}</h5>

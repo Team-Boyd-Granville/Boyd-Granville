@@ -20,9 +20,15 @@ function StarredRepositories() {
   const [repoInfo, setrepoInfo] = useState([]);
   const [repoIssues, setRepoIssues] = useState([]);
   const [contributors, setContributors] = useState([{}]);
+  var repo, owner;
 
   const getAllInfo = () => {
-    getAllRepoInfo("mtytel", "helm")
+    console.log(repoid);
+    // repoid = repoid.replace(".", "");
+    repo = repoid.split("*")[0];
+    owner = repoid.split("*")[1];
+
+    getAllRepoInfo(owner, repo)
       .then(resp => {
         console.log(resp);
         setrepoInfo(resp);
@@ -31,7 +37,7 @@ function StarredRepositories() {
         alert("Error getting starred repos, see log");
         console.log(error);
       });
-    getRepoIssues("mtytel", "helm")
+    getRepoIssues(owner, repo)
       .then(resp => { //resp.json())
       // .then(json => {
         console.log(JSON.parse(resp));
@@ -43,7 +49,7 @@ function StarredRepositories() {
   };
 
   const getContributors = () => {
-    getRepoContributors("mtytel", "helm")
+    getRepoContributors(owner, repo)
       .then(resp => {
         console.log(resp);
         setContributors(resp);
