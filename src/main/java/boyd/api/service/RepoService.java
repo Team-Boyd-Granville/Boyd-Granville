@@ -71,6 +71,9 @@ public class RepoService {
 
         for (int i = 0; i < 5; i++) {
             int count = indexes[i];
+            if (count == -1) {
+                break;
+            }
             JSONObject jo = json.getJSONObject(count);
 
             issue[i] = new Issue();
