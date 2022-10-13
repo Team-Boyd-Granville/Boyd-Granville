@@ -65,11 +65,11 @@ public class RepoController {
         return repoService.getRepoDeployments(owner, repo);
     }
 
-    @GetMapping(value="/repo/readme", params={"owner", "repo"})
-    public String getRepoReadme(@RequestParam String owner, String repo) {
-        System.out.println("Get repos readme");
-        return repoService.getRepoReadme(owner, repo);
-    }
+    // @GetMapping(value="/repo/readme", params={"owner", "repo"})
+    // public String getRepoReadme(@RequestParam String owner, String repo) {
+    //     System.out.println("Get repos readme");
+    //     return repoService.getRepoReadme(owner, repo);
+    // }
 
     @GetMapping(value="/repo/contributors", params={"owner", "repo"})
     public String getRepoContributors(@RequestParam String owner, String repo) {

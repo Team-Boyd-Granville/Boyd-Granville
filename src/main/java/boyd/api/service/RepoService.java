@@ -115,8 +115,8 @@ public class RepoService {
         return r.toString();
     }
 
-    public String getRepoReadme(String owner, String repo) {
-        return (handleETags.sendGetRequestWithETag("https://raw.githubusercontent.com/" + owner + "/" + repo + "/main/README.md"));
+    public String getRepoReadme(String owner, String repo, String sha) {
+        return (handleETags.sendGetRequestWithETag("https://github.com/" + owner + "/" + repo + "/raw/" + sha + "/README.md"));
     }
 
     public String getRepoContributors(String owner, String repo) {
@@ -126,11 +126,10 @@ public class RepoService {
     public String getRepoCommits(String owner, String repo) {
         String x = handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/commits");
         JSONArray json = new JsonNode(x).getArray();
-
-        return tagJsonMessages(json);
+        return tagJsonMessages(json, owner, repo);
     }
 
-    public String tagJsonMessages(JSONArray json) {
+    public String tagJsonMessages(JSONArray json, String owner, String repo) {
         int jsonLength = json.length();
         StringBuilder r = new StringBuilder();
 
@@ -140,14 +139,27 @@ public class RepoService {
 
         for (int i = 0; i < jsonLength; i++) {
             JSONObject j = json.getJSONObject(i).getJSONObject("commit");
+            String updatedDocumentation = null;
+            String outdatedDocumentation = null;
+            if (j.getString("message").equals("Update README.md") && (i < jsonLength - 1)) {
+                String k = json.getJSONObject(i).getString("sha");
+                String l = json.getJSONObject(i + 1).getString("sha");
+                updatedDocumentation = getRepoReadme(owner, repo, k);
+                outdatedDocumentation = getRepoReadme(owner, repo, l);
+            }
             String info = j.getJSONObject("author").get("name") + ", " + j.getJSONObject("author").get("date");
             String message = j.get("message").toString().replaceAll("\n", " ");
 
             // message = tagString(message) + message;
             if (i == 3)
                 break;
-            r.append(info).append(", ").append(message).append("\n");
+            r.append(info).append(", ").append(message);
+            if (updatedDocumentation != (null) && outdatedDocumentation != (null)) {
+                r.append(", ").append(updatedDocumentation).append(", ").append(outdatedDocumentation);
+            }
+            r.append("\n");
         }
+        System.out.println(r.toString().trim());
 
         return r.toString().trim();
     }
@@ -231,7 +243,6 @@ public class RepoService {
         r += "Commits:\n" + m4 + "\n";
         // r += "Issues:\n" + m5 + "\n";
         r += "Deployments:\n" + m6 + "\n";
-        // r += "ReadMe:\n" + m7 + "\n";
 
         return r;
     }
