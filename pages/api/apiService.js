@@ -1,4 +1,5 @@
-const baseURL = "https://boyd-granville-backend.herokuapp.com";
+//const baseURL = "https://boyd-granville-backend.herokuapp.com";
+const baseURL = "http://localhost:8080";
 
 export async function getUsersStarred(username) {
     const resp = await fetch(`${baseURL}/user/starred?username=${username}`, {
@@ -28,6 +29,13 @@ export async function getUsersStarred(username) {
 //     });
 //     return await resp.text();
 // }
+
+export async function getRepoIssues(owner, repo) {
+    const resp = await fetch(`${baseURL}/repo/issues?owner=${owner}&repo=${repo}`, {
+        method: 'GET'
+    });
+    return (await resp.text());
+}
 
 export async function getAllRepoInfo(owner, repo) {
     const resp = await fetch(`${baseURL}/repo/allInfo?owner=${owner}&repo=${repo}`, {
