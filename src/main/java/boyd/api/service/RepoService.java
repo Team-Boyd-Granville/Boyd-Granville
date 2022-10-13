@@ -132,7 +132,7 @@ public class RepoService {
         for (int i = 0; i < jsonLength; i++) {
             JSONObject j = json.getJSONObject(i).getJSONObject("commit");
             String info = j.getJSONObject("author").get("name") + ", " + j.getJSONObject("author").get("date");
-            String message = j.get("message").toString();
+            String message = j.get("message").toString().replaceAll("\n", " ");
 
             // message = tagString(message) + message;
             if (i == 3)
