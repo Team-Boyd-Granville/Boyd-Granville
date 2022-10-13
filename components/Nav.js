@@ -21,7 +21,7 @@ function ColorSchemesExample() {
             <Nav.Link href="#Trending">Trending</Nav.Link>
             <Nav.Link href="#Collection">Collection</Nav.Link>
             <Nav.Link href="#Events">Events</Nav.Link>
-            <Nav.Link href="#Sponsers">GitHub Sponsers</Nav.Link>
+            {/* <Nav.Link href="#Sponsers">GitHub Sponsors</Nav.Link> */}
           </Nav>
         </Container>
       </Navbar>

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from 'react'
 import Layout from "../components/Layout"
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -5,14 +6,14 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { postUser } from './api/apiService';
 import { useSession } from 'next-auth/react'
-
+import { useRouter } from 'next/router';
 
 function Preferences() {
   const { data: session, status } = useSession();
-
+  const router = useRouter();
   var listTopics = new Array();
 
   const handleChangeTopics = event => {
@@ -24,16 +25,16 @@ function Preferences() {
     postUser(session.user.name, session.user.email, listTopics)
       .then(resp => {
         console.log(resp);
-      })
+      }).then(()=>{window.location.href = '/home'})
       .catch(error => {
         console.log(error);
       });
-
-      window.location.href = '/home';
   };
+  
 
   return (
     <div>
+      {/* <h1>{JSON.stringify(userExists)}</h1> */}
       <Container>
         <Row>
           <Col>Select all topics that you are interested in seeing on your GitHub Explore feed:
@@ -94,9 +95,20 @@ function Preferences() {
           <Col><Button as="input" type="button" value="mongodb" onClick={handleChangeTopics} />{' '}</Col>
           <Col><Button as="input" type="button" value="nosql" onClick={handleChangeTopics} />{' '}</Col>
           <Col></Col>
+          {/* <textarea name="" id="" cols="30" rows="10">
+          {(typeof listTopics === 'undefined') ? (
+          <h1></h1>
+      ) : (
+        listTopics.map((topic) => (
+          <div>
+            {topic}
+          </div>
+        ))
+        )}
+          </textarea> */}
         </Row>
         <Row>
-          <Col><Button variant="outline-success" onClick={setUserTopics}>Submit</Button></Col>
+          <Col><Button variant="outline-success" onClick={()=>{setUserTopics()}}>Submit</Button></Col>
         </Row>
       </Container>
     </div>

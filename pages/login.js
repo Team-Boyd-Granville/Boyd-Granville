@@ -16,7 +16,7 @@ function Login() {
   return (
     <>
       Not signed in <br />
-      <button onClick={() => signIn('github', { callbackUrl: `/preferences` })}>Sign in</button>
+      <button onClick={() => signIn('github', { callbackUrl: `/redirecting` })}>Sign in</button>
     </>
   )
 }

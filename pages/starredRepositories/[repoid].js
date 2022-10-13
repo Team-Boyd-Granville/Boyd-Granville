@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Commit from '../../components/Commit';
 import Issue from '../../components/Issue';
 import Layout from "../../components/Layout"
-import { getAllRepoInfo } from './../api/apiService';
+import { getAllRepoInfo, getRepoContributors } from './../api/apiService';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -12,11 +12,14 @@ import Alert from 'react-bootstrap/Alert';
 import { Table } from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Contributor from '../../components/Contributor';
 
 function StarredRepositories() {
   const router = useRouter()
   const { repoid } = router.query
   const [repoInfo, setrepoInfo] = useState([]);
+  const [contributors, setContributors] = useState([{}]);
+
   const getAllInfo = () => {
     getAllRepoInfo("mtytel", "helm")
     .then(resp => {
@@ -29,8 +32,21 @@ function StarredRepositories() {
           });
         };
 
+  const getContributors = () => {
+    getRepoContributors("mtytel", "helm")
+    .then(resp => {
+      console.log(resp);
+        setContributors(resp);
+        })
+        .catch(error => {
+            alert("Error getting contributors, see log");
+            console.log(error);
+          });
+        };
+
 useEffect(() => {
   getAllInfo();
+  getContributors();
     }, []);
     
   return (
@@ -41,7 +57,7 @@ useEffect(() => {
             <div className="list-group">
               <a className="list-group-item list-group-item-action active list-group-item-danger" aria-current="true">
                 <div className="d-flex w-100 justify-content-between">
-                  <h6 className="mb-1">Important logged issues</h6>
+                  <h6 className="mb-1">Important Logged Issues</h6>
                 </div>
               </a>
               {/* <a href="#" className="list-group-item list-group-item-action">
@@ -76,16 +92,35 @@ useEffect(() => {
                 </div>
               </a>
 
-    {/* <h1>{repoInfo[6]}</h1> */}
+    <div>
       {(typeof repoInfo === 'undefined') ? (
-          <h1></h1>
-      ) : (
-        repoInfo.slice(5,8).map((commitdata, index) => (
-          // <h1>{JSON.stringify(commitdata.commit)}</h1>
-              <Commit commitdata={commitdata} index={index}/>
-        ))
-        )}
+        <h1></h1>
+        ) : (
+          repoInfo.slice(5,8).map((commitdata, index) => (
+            <Commit commitdata={commitdata} index={index}/>
+            ))
+            )}
+    </div>
+    
+
             </div>
+          </div>
+
+          <div className="container mb-5">
+            <div className="list-group">
+            <a className="list-group-item list-group-item-action active list-group-item-danger" aria-current="true">
+                <div className="d-flex w-100 justify-content-between">
+                  <h6 className="mb-1">Project Contributors</h6>
+                </div>
+              </a>
+          {(typeof contributors === 'undefined') ? (
+            <h1></h1>
+            ) : (
+              contributors.map((contributor, index) => (
+                <Contributor contributor={contributor}/>
+                ))
+                )}
+          </div>
           </div>
     
           {/* <div className="container mb-5">

@@ -43,6 +43,13 @@ export async function getRecommendedRepos(username, pageNumber) {
     return (await resp.text()).split('\n');
 }
 
+export async function getRepoContributors(username, repo) {
+    const resp = await fetch(`${baseURL}/repo/contributors?owner=${username}&repo=${repo}`, {
+        method: 'GET'
+    });
+    return (resp.json());
+}
+
 export async function getUserInfo(username) {
     const resp = await fetch(`${baseURL}/user/info?username=${username}`, {
         method: 'GET'
@@ -64,7 +71,7 @@ export async function getFollowing(username) {
     return await resp.json();
 }
 
-export async function postUser(username, email, topics) {
+export async function postUser(username, email, topics) {   
     const formData = new FormData();
 
     var t = "";
@@ -80,10 +87,16 @@ export async function postUser(username, email, topics) {
     }
     formData.append("user", JSON.stringify(user));
 
-    return fetch(`${baseURL}/users`, {
+    return fetch(`${baseURL}/user`, {
         method: 'POST',
         headers: {  },
         body: formData
     });
+}
 
+export async function getUser(username) {
+    const resp = await fetch(`${baseURL}/user?username=${username}`, {
+        method: 'GET'
+    });
+    return await resp.text();
 }
