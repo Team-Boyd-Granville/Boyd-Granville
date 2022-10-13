@@ -47,37 +47,43 @@ public class RepoService {
         String x = handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/issues");
         JSONArray json = new JsonNode(x).getArray();
 
-        Issue[] issue = new Issue[3];
+        Issue[] issue = new Issue[5];
+        int[] indexes = new int[5];
+        int[] comm = new int[5];
 
-        int count = 0;
+        for (int i = 0; i < 5; i++) {
+            comm[i] = -1;
+        }
 
         for (int i = 0; i < json.length(); i++) {
             JSONObject jo = json.getJSONObject(i);
-
-            issue[count] = new Issue();
-
-            issue[count].setTitle((String) jo.get("title"));
-
-            issue[count].setUser((String) jo.getJSONObject("user").get("login"));
-
-            String state = (String) jo.get("state");
-            if (state.equals("closed")) {
-                continue;
+            if (((String) jo.get("state")).equals("open")) {
+                int c = (Integer) jo.get("comments");
+                for (int j = 0; j < 5; j++) {
+                    if (c > comm[j]) {
+                        comm[j] = c;
+                        indexes[j] = i;
+                        break;
+                    }
+                }
             }
-            issue[count].setState(state);
+        }
 
-            issue[count].setComments((Integer) jo.get("comments"));
+        for (int i = 0; i < 5; i++) {
+            int count = indexes[i];
+            JSONObject jo = json.getJSONObject(count);
+
+            issue[i] = new Issue();
+            issue[i].setTitle((String) jo.get("title"));
+            issue[i].setUser((String) jo.getJSONObject("user").get("login"));
+            issue[i].setState((String) jo.get("state"));
+            issue[i].setComments((Integer) jo.get("comments"));
 
             try {
-                issue[count].setDescription((String) jo.get("body"));
+                issue[i].setDescription((String) jo.get("body"));
             } catch (JSONException e) {
                 System.err.println("No body");
             }
-
-            if (count == 2) {
-                break;
-            }
-            count++;
         }
 
         return issue;
