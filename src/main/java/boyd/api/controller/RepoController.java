@@ -1,4 +1,5 @@
 package boyd.api.controller;
+import boyd.api.model.Issue;
 
 import boyd.api.model.Repo;
 import boyd.api.service.RepoService;
