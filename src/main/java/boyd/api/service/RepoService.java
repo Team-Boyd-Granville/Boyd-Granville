@@ -41,30 +41,44 @@ public class RepoService {
         return (handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/tags"));
     }
 
-    public String getRepoIssues(String owner, String repo) {
+    public Issue[] getRepoIssues(String owner, String repo) {
         String x = handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/issues");
         JSONArray json = new JsonNode(x).getArray();
 
-        StringBuilder r = new StringBuilder();
+        Issue[] issue = new Issue[3];
+
+        int count = 0;
 
         for (int i = 0; i < json.length(); i++) {
             JSONObject jo = json.getJSONObject(i);
-            r.append("title:").append(jo.get("title")).append(", ");
-            r.append("user:").append(jo.getJSONObject("user").get("login")).append(", description:");
-            JSONArray ja = jo.getJSONArray("labels");
-            for (int j = 0; j < ja.length(); j++) {
-                JSONObject jo2 = ja.getJSONObject(j);
-                r.append(jo2.get("description")).append(",");
-            }
-            r.delete(r.length()-1, r.length());
-            r.append("\n");
 
-            if (i == 2) {
+            issue[count] = new Issue();
+
+            issue[count].setTitle((String) jo.get("title"));
+
+            issue[count].setUser((String) jo.getJSONObject("user").get("login"));
+
+            String state = (String) jo.get("state");
+            if (state.equals("closed")) {
+                continue;
+            }
+            issue[count].setState(state);
+
+            issue[count].setComments((Integer) jo.get("comments"));
+
+            try {
+                issue[count].setDescription((String) jo.get("body"));
+            } catch (JSONException e) {
+                System.err.println("No body");
+            }
+
+            if (count == 2) {
                 break;
             }
+            count++;
         }
 
-        return r.toString();
+        return issue;
     }
 
     public String getRepoDeployments(String owner, String repo) {
@@ -194,7 +208,7 @@ public class RepoService {
         String m2 = getRepoLanguages(owner, repo);
         String m3 = getRepoTopics(owner, repo);
         String m4 = getRepoCommits(owner, repo);
-        String m5 = getRepoIssues(owner, repo);
+        // String m5 = getRepoIssues(owner, repo);
         String m6 = getRepoDeployments(owner, repo);
         // String m7 = getRepoReadme(owner, repo);
 
@@ -204,7 +218,7 @@ public class RepoService {
         r += "Languages:\n" + m2 + "\n";
         r += "Topics:\n" + m3 + "\n";
         r += "Commits:\n" + m4 + "\n";
-        r += "Issues:\n" + m5 + "\n";
+        // r += "Issues:\n" + m5 + "\n";
         r += "Deployments:\n" + m6 + "\n";
         // r += "ReadMe:\n" + m7 + "\n";
 

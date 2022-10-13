@@ -53,7 +53,7 @@ public class RepoController {
     }
 
     @GetMapping(value="/repo/issues", params={"owner", "repo"})
-    public String getRepoIssues(@RequestParam String owner, String repo) {
+    public Issue[] getRepoIssues(@RequestParam String owner, String repo) {
         System.out.println("Get repos issues");
         return repoService.getRepoIssues(owner, repo);
     }
