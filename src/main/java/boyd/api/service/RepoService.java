@@ -157,7 +157,7 @@ public class RepoService {
             if (updatedDocumentation != (null) && outdatedDocumentation != (null)) {
                 r.append(", ").append(updatedDocumentation).append(", ").append(outdatedDocumentation);
             }
-            r.append("^");
+            r.append(";\n");
         }
         System.out.println(r.toString().trim());
 
