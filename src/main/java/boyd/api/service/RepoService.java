@@ -141,11 +141,13 @@ public class RepoService {
             JSONObject j = json.getJSONObject(i).getJSONObject("commit");
             String updatedDocumentation = null;
             String outdatedDocumentation = null;
+            String k = null;
+            String l = null;
             if (j.getString("message").equals("Update README.md") && (i < jsonLength - 1)) {
-                String k = json.getJSONObject(i).getString("sha");
-                String l = json.getJSONObject(i + 1).getString("sha");
-                updatedDocumentation = getRepoReadme(owner, repo, k).trim();
-                outdatedDocumentation = getRepoReadme(owner, repo, l).trim();
+                k = json.getJSONObject(i).getString("sha");
+                l = json.getJSONObject(i + 1).getString("sha");
+                // updatedDocumentation = getRepoReadme(owner, repo, k).trim();
+                // outdatedDocumentation = getRepoReadme(owner, repo, l).trim();
             }
             String info = j.getJSONObject("author").get("name") + ", " + j.getJSONObject("author").get("date");
             String message = j.get("message").toString().replaceAll("\n", " ");
@@ -154,8 +156,8 @@ public class RepoService {
             if (i == 3)
                 break;
             r.append(info).append(", ").append(message);
-            if (updatedDocumentation != (null) && outdatedDocumentation != (null)) {
-                r.append(", ").append(updatedDocumentation).append(", ").append(outdatedDocumentation);
+            if (k != (null) && l != (null)) {
+                r.append(", ").append(k).append(", ").append(l);
             }
             r.append("\n");
         }
