@@ -8,6 +8,7 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 
 import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONException;
 import kong.unirest.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
