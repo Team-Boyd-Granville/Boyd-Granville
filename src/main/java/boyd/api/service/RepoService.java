@@ -144,8 +144,8 @@ public class RepoService {
             if (j.getString("message").equals("Update README.md") && (i < jsonLength - 1)) {
                 String k = json.getJSONObject(i).getString("sha");
                 String l = json.getJSONObject(i + 1).getString("sha");
-                updatedDocumentation = getRepoReadme(owner, repo, k);
-                outdatedDocumentation = getRepoReadme(owner, repo, l);
+                updatedDocumentation = getRepoReadme(owner, repo, k).trim();
+                outdatedDocumentation = getRepoReadme(owner, repo, l).trim();
             }
             String info = j.getJSONObject("author").get("name") + ", " + j.getJSONObject("author").get("date");
             String message = j.get("message").toString().replaceAll("\n", " ");
