@@ -54,10 +54,10 @@ public class UserController {
         return userService.getStarred(username);
     }
 
-    @GetMapping(value="/user/recommendations", params="username")
-    public String getRecommendations(@RequestParam String username) {
+    @GetMapping(value="/user/recommendations", params={"username", "pageNumber"})
+    public String getRecommendations(@RequestParam String username, int pageNumber) {
         System.out.println("Get users recommendations");
-        return userService.getRecommendations(username);
+        return userService.getRecommendations(username, pageNumber);
     }
 
     @GetMapping(value="/user/repos", params="username")

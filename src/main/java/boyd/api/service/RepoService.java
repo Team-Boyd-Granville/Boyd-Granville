@@ -212,8 +212,9 @@ public class RepoService {
     }
 
     public String getRecommendations(String username, int pageNumber) {
-        // UserService userService = new UserService();
-        // String currentUser = userService.getUser(username).trim();
+        UserService userService = new UserService();
+        String currentUser = userService.getUser(username);
+        System.out.println(currentUser);
         // String[] components = currentUser.split(", ");
         // String[] userTopics = components[1].split(" ");
 
