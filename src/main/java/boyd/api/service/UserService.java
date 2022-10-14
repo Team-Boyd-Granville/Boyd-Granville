@@ -180,7 +180,7 @@ public class UserService {
             String ownerInfo = j.getJSONObject(i).get("owner").toString();
             x = new JsonNode(ownerInfo);
             String owner = x.getObject().get("login").toString();
-            r.append(name).append(", ").append(fullName).append(", ").append(owner).append("~@" + keywordString.replace("+", ", ") + ".\n");
+            r.append(name).append(", ").append(fullName).append(", ").append(owner).append("~@" + keywordString.replace("+", ", ") + "\n");
         }
         output.append(r.toString().trim());
     }
