@@ -14,7 +14,6 @@ import Card from 'react-bootstrap/Card';
 
 import { getUsersRepos, getUsersStarred, getRecommendedRepos, getUserInfo } from './api/apiService';
 
-
 function Home() {
     const { data: session, status } = useSession();
     const [starred, setStarred] = useState([]);
@@ -22,7 +21,6 @@ function Home() {
     const [pageNumber, setPageNumber] = useState(1);
     const [repos, setRepos] = useState([]);
     const [userInfo, setUserInfo] = useState({})
-
     
     
     useEffect(() => {
@@ -122,22 +120,20 @@ function Home() {
               </a>
 
     <div style={{overflow: "scroll", height : "400px"}}>
-    {/* <h1>{JSON.stringify(recommended)}</h1> */}
       {(typeof recommended === 'undefined') ? (
         <h1></h1>
         ) : (
           recommended.map((repodata) => (
-            // <Link href={'/starredRepositories/'+starredRepo.substring(0, starredRepo.indexOf(','))}>
-              <a href="#" className="list-group-item list-group-item-action">
+            <Link href={'/' + repodata.split("~@")[0].split(",")[0].trim() + '*' + repodata.split("~@")[0].split(", ")[2]}>
+            <a href="#" className="list-group-item list-group-item-action">
+              <h5>{repodata.split("~@")[0].split(",")[0]}</h5>
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{repodata}</h5>
+                  {/* <h5 className="mb-1">{repodata.split("~@")[0].split(",")[0].trim()}</h5> */}
                   
-                  <small className="text-muted">3 days ago</small>
                 </div>
-                <p className="mb-1">This topic is about ...</p>
-                <small className="text-muted">because you follow xyz</small>
+                <small className="text-muted">Based on your interests in: {repodata.split("~@")[1]}</small>
               </a>
-          // </Link>
+          </Link>
           ))
           )}
           <a href="#" className="list-group-item list-group-item-action">
@@ -207,19 +203,16 @@ function Home() {
                   <h5 className="mb-1">Starred Projects:</h5>
                 </div>
               </a>
-
+      
       {(typeof starred === 'undefined') ? (
           <h1></h1>
       ) : (
         starred.map((starredRepo) => (
-          <Link href={'/starredRepositories/'+starredRepo.substring(0, starredRepo.indexOf(','))}>
+          <Link href={'/' + starredRepo.split(",")[0].trim() + '*' + starredRepo.split(",")[2].replace(".", "").trim()}>
           <a className="list-group-item list-group-item-action">
           <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">{starredRepo}</h5>
-              <small className="text-muted">5 days ago</small>
+              <h5 className="mb-1">{starredRepo.split(",")[0].trim()}</h5>
             </div>
-            <p className="mb-1">latest update </p>
-            <small className="text-muted">-user-</small>
           </a>
           </Link>
         ))

@@ -1,10 +1,10 @@
-const baseURL = "https://boyd-granville-backend.herokuapp.com";
+const baseURL = "https://altboydapi.herokuapp.com";
 
 export async function getUsersStarred(username) {
     const resp = await fetch(`${baseURL}/user/starred?username=${username}`, {
         method: 'GET'
     });
-    return (await resp.text()).split('\n');
+    return (await resp.text()).split('\n'); 
 }
 
 // export async function getUsersRepos(username) {
@@ -29,6 +29,13 @@ export async function getUsersStarred(username) {
 //     return await resp.text();
 // }
 
+export async function getRepoIssues(owner, repo) {
+    const resp = await fetch(`${baseURL}/repo/issues?owner=${owner}&repo=${repo}`, {
+        method: 'GET'
+    });
+    return (await resp.text());
+}
+
 export async function getAllRepoInfo(owner, repo) {
     const resp = await fetch(`${baseURL}/repo/allInfo?owner=${owner}&repo=${repo}`, {
         method: 'GET'
@@ -37,7 +44,7 @@ export async function getAllRepoInfo(owner, repo) {
 }
 
 export async function getRecommendedRepos(username, pageNumber) {
-    const resp = await fetch(`${baseURL}/repo/recommendations?username=${username}&pageNumber=${pageNumber}`, {
+    const resp = await fetch(`${baseURL}/user/recommendations?username=${username}&pageNumber=${pageNumber}`, {
         method: 'GET'
     });
     return (await resp.text()).split('\n');
@@ -96,6 +103,13 @@ export async function postUser(username, email, topics) {
 
 export async function getUser(username) {
     const resp = await fetch(`${baseURL}/user?username=${username}`, {
+        method: 'GET'
+    });
+    return await resp.text();
+}
+
+export async function getDocumentationUpdates(owner, repo, sha) {
+    const resp = await fetch(`${baseURL}/repo/readme?owner=${owner}&repo=${repo}&sha=${sha.trim()}`, {
         method: 'GET'
     });
     return await resp.text();

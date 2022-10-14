@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-key */
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import Commit from '../../components/Commit';
-import Issue from '../../components/Issue';
-import Layout from "../../components/Layout"
-import { getAllRepoInfo, getRepoContributors } from './../api/apiService';
+import Commit from './../components/Commit';
+import Issue from './../components/Issue';
+import Layout from "./../components/Layout"
+import { getAllRepoInfo, getRepoContributors, getRepoIssues } from './api/apiService';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -12,28 +12,50 @@ import Alert from 'react-bootstrap/Alert';
 import { Table } from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Contributor from '../../components/Contributor';
+import Contributor from './../components/Contributor';
 
 function StarredRepositories() {
   const router = useRouter()
   const { repoid } = router.query
   const [repoInfo, setrepoInfo] = useState([]);
+  const [repoIssues, setRepoIssues] = useState([]);
   const [contributors, setContributors] = useState([{}]);
-
-  const getAllInfo = () => {
-    getAllRepoInfo("mtytel", "helm")
+  const [test, setTest] = useState("");
+  var repo, owner;
+  
+  const getAllInfo = (owner, repo) => {
+    repo = repoid.split("*")[0];
+    owner = repoid.split("*")[1];
+    getAllRepoInfo(owner, repo)
     .then(resp => {
       console.log(resp);
         setrepoInfo(resp);
+        setTest(repoInfo.slice(repoInfo.indexOf("Commits:"), repoInfo.indexOf("Deployments:")).toString().split(","));
         })
         .catch(error => {
             alert("Error getting starred repos, see log");
             console.log(error);
           });
         };
+        
+        const getIssues = () => {
+          repo = repoid.split("*")[0];
+          owner = repoid.split("*")[1];
+          getRepoIssues(owner, repo)
+          .then(resp => {
+            console.log(JSON.parse(resp));
+            setRepoIssues(JSON.parse(resp));
+          })
+          .catch(error => {
+            console.log(error);
+          })
+              }; 
+        
 
   const getContributors = () => {
-    getRepoContributors("mtytel", "helm")
+    repo = repoid.split("*")[0];
+    owner = repoid.split("*")[1];
+    getRepoContributors(owner, repo)
     .then(resp => {
       console.log(resp);
         setContributors(resp);
@@ -45,14 +67,14 @@ function StarredRepositories() {
         };
 
 useEffect(() => {
-  getAllInfo();
+  getAllInfo("Team-Boyd-Granville", "Boyd-Granville");
+  getIssues();
   getContributors();
-    }, []);
+    }, [repoid]);
     
   return (
     <div>
       
-        
 <div className="container mb-5">
             <div className="list-group">
               <a className="list-group-item list-group-item-action active list-group-item-danger" aria-current="true">
@@ -60,21 +82,11 @@ useEffect(() => {
                   <h6 className="mb-1">Important Logged Issues</h6>
                 </div>
               </a>
-              {/* <a href="#" className="list-group-item list-group-item-action">
-              <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">issue 1</h5>
-                  <small className="text-muted">4 days ago</small>
-                </div>
-                <p className="mb-1">issue description</p>
-                <div><small className="text-muted">repository name</small></div>
-                <small className="text-muted">submitted by "user"</small>
-              </a> */}
-
-{(typeof repoInfo === 'undefined') ? (
+              
+{(typeof repoIssues === 'undefined') ? (
           <h1></h1>
       ) : (
-        repoInfo.slice(9,12).map((commitdata, index) => (
-
+        repoIssues.map((commitdata, index) => (
           // <h1>{JSON.stringify(commitdata.commit)}</h1>
           <Issue commitdata={commitdata} index={index}/>
         ))

@@ -8,7 +8,7 @@ import MyImage from '../images/Octocat.jpg';
 function LoginLayout({ children }) {
     return (
         <>
-        <Nav/>
+        {/* <Nav/> */}
         <div className="container">
             <main className="container">
                 {children}
