@@ -1,6 +1,5 @@
 package boyd.api.controller;
 
-import boyd.api.model.Repo;
 import boyd.api.model.User;
 import boyd.api.service.UserService;
 import kong.unirest.json.JSONObject;
@@ -8,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @CrossOrigin
 @RestController

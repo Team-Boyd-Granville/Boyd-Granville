@@ -2,12 +2,14 @@ package boyd.api.service;
 
 import boyd.api.Repository.RepoRepository;
 import boyd.api.controller.UserController;
+import boyd.api.model.Issue;
 import boyd.api.model.Repo;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 
 import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONException;
 import kong.unirest.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,30 +43,53 @@ public class RepoService {
         return (handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/tags"));
     }
 
-    public String getRepoIssues(String owner, String repo) {
+    public Issue[] getRepoIssues(String owner, String repo) {
         String x = handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/issues");
         JSONArray json = new JsonNode(x).getArray();
 
-        StringBuilder r = new StringBuilder();
+        Issue[] issue = new Issue[5];
+        int[] indexes = new int[5];
+        int[] comm = new int[5];
+
+        for (int i = 0; i < 5; i++) {
+            comm[i] = -1;
+        }
 
         for (int i = 0; i < json.length(); i++) {
             JSONObject jo = json.getJSONObject(i);
-            r.append("title:").append(jo.get("title")).append(", ");
-            r.append("user:").append(jo.getJSONObject("user").get("login")).append(", description:");
-            JSONArray ja = jo.getJSONArray("labels");
-            for (int j = 0; j < ja.length(); j++) {
-                JSONObject jo2 = ja.getJSONObject(j);
-                r.append(jo2.get("description")).append(",");
-            }
-            r.delete(r.length()-1, r.length());
-            r.append("\n");
-
-            if (i == 2) {
-                break;
+            if (((String) jo.get("state")).equals("open")) {
+                int c = (Integer) jo.get("comments");
+                for (int j = 0; j < 5; j++) {
+                    if (c > comm[j]) {
+                        comm[j] = c;
+                        indexes[j] = i;
+                        break;
+                    }
+                }
             }
         }
 
-        return r.toString();
+        for (int i = 0; i < 5; i++) {
+            int count = indexes[i];
+            if (count == -1) {
+                break;
+            }
+            JSONObject jo = json.getJSONObject(count);
+
+            issue[i] = new Issue();
+            issue[i].setTitle((String) jo.get("title"));
+            issue[i].setUser((String) jo.getJSONObject("user").get("login"));
+            issue[i].setState((String) jo.get("state"));
+            issue[i].setComments((Integer) jo.get("comments"));
+
+            try {
+                issue[i].setDescription((String) jo.get("body"));
+            } catch (JSONException e) {
+                System.err.println("No body");
+            }
+        }
+
+        return issue;
     }
 
     public String getRepoDeployments(String owner, String repo) {
@@ -205,7 +230,7 @@ public class RepoService {
         String m2 = getRepoLanguages(owner, repo);
         String m3 = getRepoTopics(owner, repo);
         String m4 = getRepoCommits(owner, repo);
-        String m5 = getRepoIssues(owner, repo);
+        // String m5 = getRepoIssues(owner, repo);
         String m6 = getRepoDeployments(owner, repo);
         // String m7 = getRepoReadme(owner, repo);
 
@@ -215,28 +240,10 @@ public class RepoService {
         r += "Languages:\n" + m2 + "\n";
         r += "Topics:\n" + m3 + "\n";
         r += "Commits:\n" + m4 + "\n";
-        r += "Issues:\n" + m5 + "\n";
+        // r += "Issues:\n" + m5 + "\n";
         r += "Deployments:\n" + m6 + "\n";
         // r += "ReadMe:\n" + m7 + "\n";
 
         return r;
-    }
-
-    public String getRecommendations(String username, int pageNumber) {
-        UserService userService = new UserService();
-        String currentUser = userService.getUser(username);
-        System.out.println(currentUser);
-        String[] components = currentUser.split(", ");
-        String[] userTopics = (components[1].trim()).split(" ");
-
-        // for (int i = 0; i < userTopics.length; i++) {
-        //     System.out.println(userTopics[i]);
-        // }
-
-        // String keyword = userTopics[0];
-        // String keyword = "music";
-        String language = "python";
-
-        return getRepoSearch(userTopics, language, pageNumber);
     }
 }

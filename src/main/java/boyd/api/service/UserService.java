@@ -180,7 +180,6 @@ public class UserService {
         output.append(r.toString());
     }
     }
-        // return(jsonResponse.getBody().getObject().get("items").toString());
         return (output.toString());
     }
     

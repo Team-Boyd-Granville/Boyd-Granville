@@ -1,5 +1,6 @@
 package boyd.api.controller;
 
+import boyd.api.model.Issue;
 import boyd.api.model.Repo;
 import boyd.api.service.RepoService;
 import kong.unirest.json.JSONObject;
@@ -53,7 +54,7 @@ public class RepoController {
     }
 
     @GetMapping(value="/repo/issues", params={"owner", "repo"})
-    public String getRepoIssues(@RequestParam String owner, String repo) {
+    public Issue[] getRepoIssues(@RequestParam String owner, String repo) {
         System.out.println("Get repos issues");
         return repoService.getRepoIssues(owner, repo);
     }
@@ -92,11 +93,5 @@ public class RepoController {
     public String getRepoSearch(@RequestParam String[] keyword, String language) {
         System.out.println("Search for repo");
         return repoService.getRepoSearch(keyword, language, 1);
-    }
-
-    @GetMapping(value="/repo/recommendations", params={"username", "pageNumber"})
-    public String getRecommendations(@RequestParam String username, int pageNumber) {
-        System.out.println("Get users recommendations");
-        return repoService.getRecommendations(username, pageNumber);
     }
 }
