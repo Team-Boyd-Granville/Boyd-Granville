@@ -52,6 +52,7 @@ public class RepoService {
         int[] comm = new int[5];
 
         for (int i = 0; i < 5; i++) {
+            indexes[i] = -1;
             comm[i] = -1;
         }
 
@@ -71,6 +72,7 @@ public class RepoService {
 
         for (int i = 0; i < 5; i++) {
             int count = indexes[i];
+//            System.out.println(count);
             if (count == -1) {
                 break;
             }
