@@ -152,11 +152,6 @@ public class UserService {
                     keywordString += x + "+";
                 }
             keywordString = keywordString.substring(0, keywordString.length() - 1);
-            // int numKeywords = keyword.length;
-            // for (int i = 0; i < numKeywords - 1; i++) {
-                //     keywordString += keyword[i] + " + ";
-            // }
-            // keywordString += keyword[numKeywords];
             System.out.println(keywordString);
 
             jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=" + keywordString +
@@ -182,7 +177,6 @@ public class UserService {
             String owner = x.getObject().get("login").toString();
             r.append(name).append(", ").append(fullName).append(", ").append(owner).append("~@" + keywordString.replace("+", ", ") + "\n");
         }
-        output.append(r.toString().trim());
     }
     }
         // return(jsonResponse.getBody().getObject().get("items").toString());
