@@ -44,7 +44,6 @@ public class UserService {
                 return name + ", " + topics + ", " + email;
             }
         } catch (Exception e) {
-            // TODO: handle exception
             return null;
         }
     }
@@ -117,7 +116,6 @@ public class UserService {
         for (int i = 0; i < userTopics.length; i++) {
             System.out.println(userTopics[i]);
         }
-
 
         String language = "python";
 
