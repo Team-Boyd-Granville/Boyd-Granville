@@ -127,14 +127,7 @@ public class UserService {
     public String getRepoSearch(String[] keyword, String language, int pageNumber) {
         HttpResponse<JsonNode> jsonResponse;
 
-        int numKeywords = keyword.length;
-        Set<String> targetSet = new HashSet<String>(Arrays.asList(keyword));
-        List<Set<String>> allCombinations = new ArrayList<Set<String>>();
-        for (int i = numKeywords - 1; i > 0; i--) {
-            Set<Set<String>> combinations = Sets.combinations(targetSet, Math.min(targetSet.size(), i));
-            for (Set<String> x : combinations)
-                allCombinations.add(x);
-        }
+        List<Set<String>> allCombinations = getKeywordCombinations(keyword);
 
         allCombinations.removeAll(exploredOptions);
 
@@ -180,6 +173,18 @@ public class UserService {
     }
     }
         return (output.toString());
+    }
+
+    public List<Set<String>> getKeywordCombinations(String[] keyword) {
+        int numKeywords = keyword.length;
+        Set<String> targetSet = new HashSet<String>(Arrays.asList(keyword));
+        List<Set<String>> allCombinations = new ArrayList<Set<String>>();
+        for (int i = numKeywords - 1; i > 0; i--) {
+            Set<Set<String>> combinations = Sets.combinations(targetSet, Math.min(targetSet.size(), i));
+            for (Set<String> x : combinations)
+                allCombinations.add(x);
+        }
+        return allCombinations;
     }
     
     
