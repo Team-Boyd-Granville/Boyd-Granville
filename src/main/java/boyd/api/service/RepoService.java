@@ -160,23 +160,34 @@ public class RepoService {
         return (handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/topics"));
     }
 
-    public String getRepoSearch(String keyword, String language, int pageNumber) {
+    public String getRepoSearch(String[] keyword, String language, int pageNumber) {
         HttpResponse<JsonNode> jsonResponse;
         // per_page specifies how many repos you want to be returned
-        if (keyword.equals("") && language.equals("")) {
+        if (keyword.equals(null) && language.equals("")) {
             jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=stars:1000..2000&fork:true&sort=stars&order=desc?page=" + Integer.toString(pageNumber) + "&per_page=10").header("accept",
                     "application/vnd.github+json").queryString("apiKey", "123").asJson();
         } else {
-            jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=" + keyword +
-                    "+language:" + language + "&sort=stars&order=desc?page=" + Integer.toString(pageNumber) + "&per_page=" +Integer.toString(10*pageNumber) + "").header("accept",
+            String keywordString = "machine-learning";
+            // int numKeywords = keyword.length;
+            // for (int i = 0; i < numKeywords - 1; i++) {
+            //     keywordString += keyword[i] + " + ";
+            // }
+            // keywordString += keyword[numKeywords];
+            System.out.println(keywordString);
+
+            jsonResponse = Unirest.get("https://api.github.com/search/repositories?q=" + keywordString +
+                    "+language:python&sort=stars&order=desc?page=1&per_page=10").header("accept",
                     "application/vnd.github+json").queryString("apiKey", "123").asJson();
         }
 
+        System.out.println("what?");
+
         JSONArray j = jsonResponse.getBody().getObject().getJSONArray("items");
+        System.out.println("check");
         StringBuilder r = new StringBuilder();
         JsonNode x;
 
-        for (int i = (10 * pageNumber - 10); i < (pageNumber * 10); i++) {
+        for (int i = 0; i < j.length(); i++) {
             String name = j.getJSONObject(i).get("name").toString();
             String fullName = j.getJSONObject(i).get("full_name").toString();
             String ownerInfo = j.getJSONObject(i).get("owner").toString();
@@ -215,13 +226,17 @@ public class RepoService {
         UserService userService = new UserService();
         String currentUser = userService.getUser(username);
         System.out.println(currentUser);
-        // String[] components = currentUser.split(", ");
-        // String[] userTopics = components[1].split(" ");
+        String[] components = currentUser.split(", ");
+        String[] userTopics = (components[1].trim()).split(" ");
+
+        // for (int i = 0; i < userTopics.length; i++) {
+        //     System.out.println(userTopics[i]);
+        // }
 
         // String keyword = userTopics[0];
-        String keyword = "music";
+        // String keyword = "music";
         String language = "python";
 
-        return getRepoSearch(keyword, language, pageNumber);
+        return getRepoSearch(userTopics, language, pageNumber);
     }
 }

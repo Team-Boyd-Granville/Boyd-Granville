@@ -89,7 +89,7 @@ public class RepoController {
     }
 
     @GetMapping(value="/repo/search", params={"keyword", "language"})
-    public String getRepoSearch(@RequestParam String keyword, String language) {
+    public String getRepoSearch(@RequestParam String[] keyword, String language) {
         System.out.println("Search for repo");
         return repoService.getRepoSearch(keyword, language, 1);
     }
