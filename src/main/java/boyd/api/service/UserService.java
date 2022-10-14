@@ -118,8 +118,7 @@ public class UserService {
             System.out.println(userTopics[i]);
         }
 
-        // String keyword = userTopics[0];
-        // String keyword = "music";
+
         String language = "python";
 
         return getRepoSearch(userTopics, language, pageNumber);
