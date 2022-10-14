@@ -177,10 +177,11 @@ public class UserService {
             String owner = x.getObject().get("login").toString();
             r.append(name).append(", ").append(fullName).append(", ").append(owner).append("~@" + keywordString.replace("+", ", ") + "\n");
         }
+        output.append(r.toString().trim());
     }
     }
         // return(jsonResponse.getBody().getObject().get("items").toString());
-        return (output.toString().trim());
+        return (output.toString());
     }
     
     
