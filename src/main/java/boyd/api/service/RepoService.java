@@ -47,7 +47,7 @@ public class RepoService {
         String x = handleETags.sendGetRequestWithETag("https://api.github.com/repos/" + owner + "/" + repo + "/issues");
         JSONArray json = new JsonNode(x).getArray();
 
-        Issue[] issue = new Issue[5];
+//        Issue[] issue = new Issue[5];
         int[] indexes = new int[5];
         int[] comm = new int[5];
 
@@ -69,8 +69,17 @@ public class RepoService {
                 }
             }
         }
-
+        int max = 0;
         for (int i = 0; i < 5; i++) {
+            if (indexes[i] == -1) {
+                break;
+            }
+            max++;
+        }
+//        System.out.println(max);
+        Issue[] issue = new Issue[max];
+
+        for (int i = 0; i < max; i++) {
             int count = indexes[i];
 //            System.out.println(count);
             if (count == -1) {
